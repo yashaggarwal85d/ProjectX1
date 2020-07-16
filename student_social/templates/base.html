@@ -1,47 +1,50 @@
-{% load static %}
 <!DOCTYPE html>
+{% load static %}
 <html>
 
 <head>
-    <meta charset="utf-8">
-    <title>Student social</title>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
-    </script>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
-        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
-        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous">
-    </script>
-    <link rel="stylesheet" href="{% static 'student_social/css/master.css'%}">
+  <meta charset="utf-8">
+  <title>Student Social</title>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+  <link href="{% static 'css/master.css' %}">
 </head>
 
+
 <body>
-    <nav class='navbar  mynav' role="navigation" id="navbar">
-        <div class="container">
-            <a class="navbar-brand mynav" href='home'>student_social</a>
-            <ul class="nav navbar-nav navbar-right">
-                {% if user.is_authenticated %}
-                <li><a href="#" class="btn btn-simple">Home</a></li>
-                <li><a href="#" class="btn btn-simple">Group</a></li>
-                <li><a href="#" class="btn btn-simple">Create group</a></li>
-                <li><a href='accounts/logout' class="btn btn-simple">Logout</a></li>
-                {% else %}
-                <li><a href='accounts/login' class="btn btn-simple">Log In</a></li>
-                <li><a href='accounts/signup' class="btn btn-simple">Sign Up</a></li>
-                {% endif %}
-            </ul>
-        </div>
-    </nav>
 
-    <div class="container mycontent">
-        {% block content %}
+  <nav class="navbar  mynav" role="navigation" id="navbar">
+    <div class="container">
 
-        {% endblock %}
+      <a class="navbar-brand mynav" href="{% url 'home' %}">Student Social</a>
+
+      <ul class="nav navbar-nav navbar-right">
+        {% if user.is_authenticated %}
+        <li><a href="{% url 'posts:create' %}" class="btn btn-simple">Post</a></li>
+        <li><a href="{% url 'groups:all' %}" class="btn btn-simple">Groups</a></li>
+        <li><a href="{% url 'groups:create' %}" class="btn btn-simple">Create Group</a></li>
+        <li><a href="{% url 'accounts:logout' %}" class="btn btn-simple">Log out</a></li>
+        {% else %}
+        <li><a href="{% url 'groups:all' %}" class="btn btn-simple">Groups</a></li>
+        <li><a href="{% url 'accounts:login' %}" class="btn btn-simple">Log in</a></li>
+        <li><a href="{% url 'accounts:signup' %}" class="btn btn-simple">Sign up</a></li>
+        {% endif %}
+      </ul>
+
+
+
     </div>
+  </nav>
+  <div class="container mycontent">
+    {% block content %}
+
+    {% endblock %}
+
+  </div>
+  <canvas id="canvas"></canvas>
+
 
 </body>
 
