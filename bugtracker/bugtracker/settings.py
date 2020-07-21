@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'accounts',
     'issues',
     'projects',
+    'bootstrap4',
 ]
 
 MIDDLEWARE = [

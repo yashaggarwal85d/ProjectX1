@@ -1,0 +1,15 @@
+<div>
+	<a>{{ issue.user.username }}</a>
+	<a href="{% url 'issues:for_user' username=issue.user.username %}">@{{ issue.user.username }}</a>
+	<a href="{% url 'issues:single' username=issue.user.username pk=issue.pk %}">{{ issue.created_at }}</a>
+	<a>{{issue.message}}</a>
+
+	{% for tag in issue.tags.all %}
+	<a>{{tag}}</a>
+	{% endfor %}
+	
+	{% if user.is_authenticated and issue.user == user and not hide_delete %}
+	<a href="{% url 'issues:delete' pk=issue.pk %}">Delete</a>
+	{% endif %}
+
+</div>

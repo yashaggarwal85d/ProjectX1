@@ -1,0 +1,17 @@
+{% extends "issues/issue_base.html" %}
+
+
+{% block issue_content %}
+<h3>Are you sure you want to mark this issue as solved?</h3>
+
+<div class="issues">
+	{% include "issues/_issue.html" with issue=object hide_delete=True %}
+</div>
+
+<form method="POST">
+	{% csrf_token %}
+	<input type="submit" value="Confirm Delete" class="btn btn-danger btn-large">
+	<a href="{% url 'issues:single' username=user.username pk=object.pk %}" class="btn btn-simple btn-large btn-default">Cancel</a>
+</form>
+
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends "projects/project_base.html" %}
+{% block preproject %}
+
+<div>
+	<div>
+		<h1>{{project.name}}</h1>
+		<h2> Member Count: {{project.members.count}}</h2>
+		<h2> Issues Count: {{project.issues.count}}</h2>
+
+		{% for tag in project.tags.all %}
+		<a>{{tag}}</a>
+		{% endfor %}
+
+	</div>
+	{% if user in project.members.all %}
+	<a href="{% url 'projects:leave' slug=project.slug %}"></span> Leave</a>
+	{% else %}
+	<a href="{% url 'projects:join' slug=project.slug %}"></span> Join</a>
+	{% endif %}
+</div>
+
+{% endblock %}
+
+
+
+{% block project_content %}
+<div>
+	{% if user in project.members.all %}
+	{% if project.issues.count == 0 %}
+
+	<h2>No issues in this project yet!</h2>
+
+	{% else %}
+
+	{% for issue in project.issues.all %}
+	{% include "issues/_issue.html" %}
+	{% endfor %}
+
+	{% endif %}
+
+	{% else %}
+
+	<h2>Join the group to view issues</h2>
+
+	{% endif %}
+
+</div>
+
+{% endblock %}
