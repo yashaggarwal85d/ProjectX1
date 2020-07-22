@@ -1,0 +1,7 @@
+<a href="{% url 'projects:single' slug=project.slug %}">
+    <h3>{{ project.name }}</h3>
+    {{ project.description_html|safe }}
+    {{ project.members.count }} member {{ project.members.count|pluralize }}
+    {{ project.issues.count }}issue{{ project.issues.count|pluralize }}
+
+</a>

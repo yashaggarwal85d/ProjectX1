@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div>
+    <h1>{{search_term}}</h1>
+    {% for project in projects %}
+    {% include "projects/_project.html" %}
+    {% endfor %}
+    
+</div>
+
+<div>
+    
+    <h1>{{search_term}}</h1>
+    {% for issue in issues %}
+    
+    {% include "issues/_issue.html" %}
+  
+    {% endfor %}
+
+</div>
+{% endblock %}

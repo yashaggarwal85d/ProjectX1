@@ -1,0 +1,12 @@
+{% extends "issues/issue_base.html" %}
+
+{% load bootstrap4 %}
+
+{% block issue_content %}
+<h4>Create New issue</h4>
+<form method="POST" action="{% url 'issues:create' %}">
+	{% csrf_token %}
+	{% bootstrap_form form %}
+	<input type="submit" value="Post">
+</form>
+{% endblock %}

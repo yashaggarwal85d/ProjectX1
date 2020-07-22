@@ -1,0 +1,44 @@
+{% extends "issues/issue_base.html" %}
+{% load humanize %}
+
+{% block pre_issue_content %}
+<div>
+	{% if request.user.is_authenticated %}
+	<div>
+			<h5 >Your Projects</h5>
+			<ul>
+				{# {% get_user_projects as user_projects %}#}
+				{% for member_project in get_user_projects %}
+				<li>
+					<a href="{% url 'projects:single' slug=member_project.project.slug %}">{{ member_project.project.name }}</a>
+				</li>
+				{% endfor %}
+
+			</ul>
+		</div>
+	
+
+	{% endif %}
+	<div>
+		<div>
+
+			<h5>All projects</h5>
+			<ul>
+				{# {% get_other_projects as other_projects %}#}
+				{% for other_project in get_other_projects %}
+				<li><a href="{% url 'projects:single' slug=other_project.slug %}">{{ other_project.name }}</a></li>
+				{% endfor %}
+			</ul>
+
+		</div>
+	</div>
+</div>
+
+{% endblock %}
+{% block issue_content %}
+<div>
+	{% for issue in issue_list %}
+	{% include "issues/_issue.html" %}
+	{% endfor %}
+</div>
+{% endblock %}
