@@ -2,6 +2,104 @@
 
 {% block issue_content %}
 <div>
-    {% include "issues/_issue.html" %}
+    <main class="content">
+        <div class="container-fluid p-0">
+    
+            <h1 class="h3 mb-3">Issue</h1>
+    
+            <div class="row">
+                <div class="col-md-4 col-xl-3">
+                    <div class="card mb-3">
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">Issue Details</h5>
+                        </div>
+                        <div class="card-body text-center">
+                            <h1 style="font-size: 35px;" class="card-title mb-0">{{issue.name.capitalize}}</h1>
+                            <div class="text-muted mb-2">{{issue.project.name.capitalize}}</div>
+    
+                            <div>
+    
+                                {% if issue.solve == False %}
+                                {% if issue.user == user and not hide_delete %}
+                                <span class="badge badge-danger"><a href="{% url 'issues:solve' pk=issue.pk %}">Mark
+                                        solved</a></span>
+                                {% else %}
+                                <span class="badge badge-warning">Pending</span>
+                                {% endif %}
+                                {% else %}
+                                <span class="badge badge-success">Done</span>
+    
+                                {% endif %}
+    
+                                {% if issue.solve == False %}
+                                    {% if issue.user == user %}
+                                        <a href="{% url 'issues:update' pk=issue.pk %}"><i class="align-middle" data-feather="edit-2"></i></a>
+		                                <a href="{% url 'issues:delete' pk=issue.pk %}"><i class="align-middle" data-feather="trash"></i></a>
+                                    {% else %}
+                                        {% if user in issue.members.all %}
+                                        <a href="{% url 'issues:leave' pk=issue.pk %}"></span>quit</a>
+                                        {% else %}
+                                        <a href="{% url 'issues:join' pk=issue.pk  %}"></span>workon</a>
+                                        {% endif %}
+                                    {% endif %}
+                                {% else %}
+    
+                                {% if user in issue.members.all and issue.user != user %}
+                                <td><a href="{% url 'issues:leave' pk=issue.pk %}"></span>quit</a></td>
+                                {% endif %}
+                                {% endif %}
+    
+    
+    
+                            </div>
+                        </div>
+                        <hr class="my-0" />
+                        <div class="card-body">
+                            <h5 class="h6 card-title">Tags</h5>
+                            {% for tag in issue.tags.all %}
+                            <a href="#" class="badge badge-primary mr-1 my-1">{{tag}}</a>
+                            {% endfor %}
+    
+                        </div>
+                        <hr class="my-0" />
+                        <div class="card-body">
+                            <h5 class="h6 card-title">About</h5>
+                            <ul class="list-unstyled mb-0">
+                                <li class="mb-1"><span data-feather="file-plus" class="feather-sm mr-1"></span> Created At
+                                    <a href="#">  {{issue.created_at}}</a></li>
+    
+                                <li class="mb-1"><span data-feather="users" class="feather-sm mr-1"></span> People
+                                    working on this  <a href="#"> {{issue.members.count}}</a></li>
+                                <li class="mb-1"><span data-feather="book" class="feather-sm mr-1"></span> Project
+                                    <a href="#"> {{issue.project.name}}</a></li>
+                            </ul>
+                        </div>
+                        <hr class="my-0" />
+                    </div>
+                </div>
+    
+                <div class="col-md-8 col-xl-9">
+                    <div class="card">
+                        <div class="card-header">
+    
+                            <h5 class="card-title mb-0">Messages</h5>
+                        </div>
+                        <div class="card-body h-100">
+    
+                            <hr />
+                            <div style="white-space:pre-wrap">
+                                {{issue.message}}
+                            
+                            </div>
+                            <hr />
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+        </div>
+    </main>
 </div>
+
+
 {% endblock %}

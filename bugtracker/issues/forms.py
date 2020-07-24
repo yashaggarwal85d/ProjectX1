@@ -5,7 +5,7 @@ from issues import models
 
 class IssueForm(forms.ModelForm):
     class Meta:
-        fields = ("message", "project","tags")
+        fields = ("name","message", "project","tags")
         model = models.Issue
 
     def __init__(self, *args, **kwargs):

@@ -15,7 +15,7 @@ def register(request):
 		if form.is_valid():
 			user = form.save()
 			messages.success(request, 'Account was created')
-			return redirect('login')
+			return redirect('accounts:login')
 		else:
 			messages.info(request, 'Username or email already registered')
 			context = {'form':form}

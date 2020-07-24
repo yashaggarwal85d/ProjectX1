@@ -13,4 +13,4 @@ urlpatterns = [
     url(r"leave/(?P<pk>\d+)/$",views.LeaveIssue.as_view(),name="leave"),   
     url(r"solve/(?P<pk>\d+)/$",views.SolveIssue,name="solve"),
     url(r"update/(?P<pk>\d+)/$",views.UpdateIssue,name="update"),   
-] 
+]

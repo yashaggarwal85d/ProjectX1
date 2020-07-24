@@ -1,43 +1,45 @@
-<div>
-	<a>{{ issue.user.username }}</a>
-	<a href="{% url 'issues:for_user' username=issue.user.username %}">@{{ issue.user.username }}</a>
-	<a href="{% url 'issues:single' username=issue.user.username pk=issue.pk %}">{{ issue.created_at }}</a>
-	<a>{{issue.message}}</a>
+<tr>
+	<td><a href="{% url 'issues:single' username=issue.user.username pk=issue.pk %}">{{issue.name}}</a>
+	</td>
+	<td class="d-none d-xl-table-cell">{{issue.created_at}}</td>
+	<td class="d-none d-xl-table-cell">{{issue.user.username}}</td>
+	<td class="d-none d-xl-table-cell">{{issue.project.name}}</td>
+	<td class="d-none d-xl-table-cell">{{issue.members.count}}</td>
 
-	{% for tag in issue.tags.all %}
-	<a>{{tag}}</a>
-	{% endfor %}
-	
-	{% if user.is_authenticated and issue.user == user and not hide_delete %}
-	<a href="{% url 'issues:delete' pk=issue.pk  %}">Delete</a>
+	{% if issue.solve == False %}
+	{% if issue.user == user and not hide_delete %}
+	<td><span class="badge badge-danger"><a href="{% url 'issues:solve' pk=issue.pk %}">Mark solved</a></span></td>
+	{% else %}
+	<td><span class="badge badge-warning">Pending</span></td>
 	{% endif %}
-	
-	{% if user.is_authenticated and not hide_delete %}
-		{% if issue.user == user %}
-			{% if issue.solve == False %}
-				<a href="{% url 'issues:update' pk=issue.pk %}">Update</a>
-				<a href="{% url 'issues:solve' pk=issue.pk %}">Mark solved</a>
-			{% else %}
-				<a href="{% url 'issues:update' pk=issue.pk %}">Update</a>
-			{% endif %}
-		{% else %}
-			{% if issue.solve == False %}
-				
-				{% if user in issue.members.all %}
-					<a href="{% url 'issues:leave' pk=issue.pk %}"></span>quit</a>
-				{% else %}
-					<a href="{% url 'issues:join' pk=issue.pk  %}"></span>workon</a>
-				{% endif %}
-			
-			{% else %}
-				
-				{% if user in issue.members.all %}
-					<a href="{% url 'issues:leave' pk=issue.pk %}"></span>quit</a>
-					<a>Solved</a>
-				{% endif %}	
-			{% endif %}
-		{% endif %}
-	{% endif %}
-	
 
-</div>
+	{% else %}
+	<td><span class="badge badge-success">Done</span></td>
+
+	{% endif %}
+
+	{% if issue.user == user and not hide_delete %}
+	<td class="table-action">
+		<a href="{% url 'issues:update' pk=issue.pk %}"><i class="align-middle" data-feather="edit-2"></i></a>
+		<a href="{% url 'issues:delete' pk=issue.pk %}"><i class="align-middle" data-feather="trash"></i></a>
+	</td>
+	{% else %}
+
+	{% if issue.solve == False %}
+
+	{% if user in issue.members.all %}
+	<td><a href="{% url 'issues:leave' pk=issue.pk %}"></span>quit</a></td>
+	{% else %}
+	<td><a href="{% url 'issues:join' pk=issue.pk  %}"></span>workon</a></td>
+	{% endif %}
+
+	{% else %}
+
+	{% if user in issue.members.all %}
+	<td><a href="{% url 'issues:leave' pk=issue.pk %}"></span>quit</a></td>
+	{% endif %}
+
+	{% endif %}
+
+	{% endif %}
+</tr>

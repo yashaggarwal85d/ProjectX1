@@ -1,11 +1,51 @@
 {% extends "projects/project_base.html" %}
-{% load bootstrap4 %}
-
 {% block project_content %}
-<h4>Create A New project</h4>
-  <form method="POST" action="{% url 'projects:create' %}">
-  	{% csrf_token %}
-  	{% bootstrap_form form %}
-  	<input type="submit" value="Create">
-  </form>
+
+<main class="content">
+	<div class="container-fluid p-0">
+		<div class="row">
+			<div class="col-12 col-xl-6">
+				<div class="card">
+					<div class="card-header">
+						<h5 class="card-title"><strong>Create</strong> a new Project</h5>
+					</div>
+					<div class="card-body">
+
+						<form method="POST" action="{% url 'projects:create' %}">
+							{% csrf_token %}
+							<div class="form-group row">
+								<label class="col-form-label col-sm-2 text-sm-right">Name</label>
+								<div class="col-sm-10">
+									<input type="name" name="name" class="form-control" placeholder="Name">
+								</div>
+							</div>
+							<div class="form-group row">
+								<label class="col-form-label col-sm-2 text-sm-right">Info</label>
+								<div class="col-sm-10">
+									<textarea class="form-control" name="description" placeholder="Textarea"
+										rows="4"></textarea>
+								</div>
+							</div>
+							<div class="form-group row">
+								<label class="col-form-label col-sm-2 text-sm-right">Tags</label>
+								<div class="col-sm-10">
+
+									{{form.tags}}
+								</div>
+							</div>
+							<div class="form-group row">
+								<div class="col-sm-10 ml-sm-auto">
+									<button type="submit" class="btn btn-primary">Create</button>
+								</div>
+							</div>
+						</form>
+
+						
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</main>
+
 {% endblock %}

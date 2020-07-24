@@ -1,0 +1,123 @@
+<main class="content">
+    <div class="container-fluid p-0">
+
+        <div class="row mb-2 mb-xl-3">
+            <div class="col-auto d-none d-sm-block">
+                <h3><strong>Analytics</strong> Dashboard</h3>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12 col-lg-8 col-xxl-9 d-flex">
+                <div class="card flex-fill">
+                    <div class="card-header">
+
+                        <h5 class="card-title mb-0">Created Issues</h5>
+                    </div>
+                    <table class="table table-hover my-0">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th class="d-none d-xl-table-cell">Created At</th>
+                                <th class="d-none d-xl-table-cell">Created By</th>
+                                <th class="d-none d-xl-table-cell">Project</th>
+                                <th class="d-none d-xl-table-cell">Members working</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for issue in issues %}
+                            {% if issue.user == user %}
+                            {% include 'issues/_issue.html' %}
+                            {% endif %}
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-12 col-lg-8 col-xxl-9 d-flex">
+                <div class="card flex-fill">
+                    <div class="card-header">
+
+                        <h5 class="card-title mb-0">Working Issues</h5>
+                    </div>
+                    <table class="table table-hover my-0">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th class="d-none d-xl-table-cell">Created At</th>
+                                <th class="d-none d-xl-table-cell">Created By</th>
+                                <th class="d-none d-xl-table-cell">Project</th>
+                                <th class="d-none d-xl-table-cell">Members Working</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for issue in issues %}
+                            {% if user in issue.members.all %}
+                            {% include 'issues/_issue.html' %}
+                            {% endif %}
+                            {% endfor %}
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row mb-2 mb-xl-3">
+            <div class="col-auto d-none d-sm-block">
+                <h3><strong>Created</strong> Projects</h3>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xl-6 col-xxl-5 d-flex">
+                <div class="w-100">
+                    <div class="row">
+
+                        {% for project in projects %}
+                        {% if project.user == user %}
+
+                        {% include 'projects/_project.html' %}
+
+                        {% endif %}
+                        {% endfor %}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-2 mb-xl-3">
+            <div class="col-auto d-none d-sm-block">
+                <h3><strong>Project</strong> Joined</h3>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xl-6 col-xxl-5 d-flex">
+                <div class="w-100">
+                    <div class="row">
+                        {% for project in projects %}
+                        {% if project.user != user and user in project.members.all %}
+
+                        {% include 'projects/_project.html' %}
+
+                        {% endif %}
+                        {% endfor %}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</main>

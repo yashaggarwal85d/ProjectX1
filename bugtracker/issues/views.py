@@ -48,10 +48,9 @@ class IssueDetail(SelectRelatedMixin, generic.DetailView):
             user__username__iexact=self.kwargs.get("username")
         )
 
-
 class CreateIssue(LoginRequiredMixin, SelectRelatedMixin, generic.CreateView):
     # form_class = forms.IssueForm
-    fields = ('message','project','tags')
+    fields = ('name','message','project','tags')
     model = models.Issue
 
     # def get_form_kwargs(self):

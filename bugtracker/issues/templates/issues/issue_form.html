@@ -1,12 +1,41 @@
 {% extends "issues/issue_base.html" %}
-
-{% load bootstrap4 %}
-
 {% block issue_content %}
-<h4>Create New issue</h4>
-<form method="POST" action="{% url 'issues:create' %}">
-	{% csrf_token %}
-	{% bootstrap_form form %}
-	<input type="submit" value="Post">
-</form>
+
+<main class="content">
+	<div class="container-fluid p-0">
+		<div class="row">
+			<div class="col-12 col-xl-6">
+				<div class="card">
+					<div class="card-header">
+						<h5 class="card-title"><strong>Raise</strong> new Issue</h5>
+					</div>
+					<div class="card-body">
+
+						<form method="POST" action="{% url 'issues:create' %}">
+							{% csrf_token %}
+
+							{% for field in form %}
+							<div class="form-group row">
+								<label class="col-form-label col-sm-2 text-sm-right">{{field.html_name}}</label>
+								<div class="col-sm-10">
+									{{field}}
+								</div>
+							</div>
+							{% endfor %}
+							
+							<div class="form-group row">
+								<div class="col-sm-10 ml-sm-auto">
+									<button type="submit" class="btn btn-primary">Create</button>
+								</div>
+							</div>
+						</form>
+
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</main>
+
 {% endblock %}
