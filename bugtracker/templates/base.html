@@ -21,7 +21,7 @@
                         Pages
                     </li>
 
-                    <li class="sidebar-item active">
+                    <li class="sidebar-item ">
                         <a class="sidebar-link" href="{% url 'home' %}">
                             <i class="align-middle" data-feather="sliders"></i> <span
                                 class="align-middle">Dashboard</span>
@@ -29,13 +29,13 @@
                     </li>
 
                     <li class="sidebar-item">
-                        <a class="sidebar-link" href="#">
+                        <a class="sidebar-link" href="{% url 'accounts:profile' %}">
                             <i class="align-middle" data-feather="user"></i> <span class="align-middle">Profile</span>
                         </a>
                     </li>
 
                     <li class="sidebar-item">
-                        <a class="sidebar-link" href="pages-settings.html">
+                        <a class="sidebar-link" href="{% url 'set' %}">
                             <i class="align-middle" data-feather="settings"></i> <span
                                 class="align-middle">Settings</span>
                         </a>
@@ -108,7 +108,8 @@
 
                 <!-- Navbar Search-->
 
-                <form action="{% url 'search' %}" class="form-inline d-none d-sm-inline-block">
+                <form action="{% url 'search' %}" method="POST" class="form-inline d-none d-sm-inline-block">
+                    {% csrf_token %}
                     <div class="input-group input-group-navbar">
                         <input name="search" type="search" class="form-control" placeholder="Search…" aria-label="Search">
                         <div class="input-group-append">

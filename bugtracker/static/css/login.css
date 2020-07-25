@@ -1,6 +1,7 @@
 body {
     font-family: "Karla", sans-serif;
-    background-color: #d0d0ce;
+    background-image: url('https://img.freepik.com/free-vector/abstract-technology-particle-background_52683-25766.jpg?size=626&ext=jpg');
+    background-size: cover;
     min-height: 100vh; }
   
   .brand-wrapper {

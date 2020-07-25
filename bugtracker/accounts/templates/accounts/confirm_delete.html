@@ -1,0 +1,6 @@
+<form method="POST" action="{% url 'accounts:deluser' %}" >
+    {% csrf_token %}
+    <h1>Are you sure you want to delete your account</h1>
+    <button>delete</button>
+</form>
+<a href="{% url 'home' %}">Cancel</a>

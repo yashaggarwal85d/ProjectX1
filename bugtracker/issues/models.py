@@ -10,7 +10,7 @@ User=get_user_model()
 class Issue(models.Model):
 
     name = models.CharField(max_length=255, unique=True)
-    user = models.ForeignKey(User,null=True,on_delete=models.SET_NULL,related_name='issues')
+    user = models.ForeignKey(User,null=True,on_delete=models.CASCADE,related_name='issues')
     created_at = models.DateTimeField(auto_now=True)
     message = models.TextField()
     project = models.ForeignKey(Project,on_delete=models.SET_NULL,related_name="issues",null=True,blank=True)
@@ -32,8 +32,8 @@ class Issue(models.Model):
         unique_together = ['user','name']
     
 class IssueMember(models.Model):
-    issue = models.ForeignKey(Issue,null=True,on_delete=models.SET_NULL, related_name="memberships",)
-    user = models.ForeignKey(User,null=True,on_delete=models.SET_NULL ,related_name='user_issues',)
+    issue = models.ForeignKey(Issue,null=True,on_delete=models.CASCADE, related_name="memberships",)
+    user = models.ForeignKey(User,null=True,on_delete=models.CASCADE ,related_name='user_issues',)
 
     def __str__(self):
         return self.user.username

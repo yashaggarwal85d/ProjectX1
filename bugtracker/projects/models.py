@@ -16,7 +16,7 @@ class Tag(models.Model):
         ordering = ["name"]
 
 class Project(models.Model):
-    user = models.ForeignKey(User,null=True,on_delete=models.SET_NULL,related_name='projects')
+    user = models.ForeignKey(User,null=True,on_delete=models.CASCADE,related_name='projects')
     name = models.CharField(max_length=255, unique=True)
     created_at = models.DateTimeField(auto_now=True)
     description = models.TextField(blank=True, default='',max_length=512)
@@ -39,8 +39,8 @@ class Project(models.Model):
         unique_together = ['user','name']
 
 class ProjectMember(models.Model):
-    project = models.ForeignKey(Project,null=True,on_delete=models.SET_NULL, related_name="memberships",)
-    user = models.ForeignKey(User,null=True,on_delete=models.SET_NULL ,related_name='user_projects',)
+    project = models.ForeignKey(Project,null=True,on_delete=models.CASCADE, related_name="memberships",)
+    user = models.ForeignKey(User,null=True,on_delete=models.CASCADE ,related_name='user_projects',)
 
     def __str__(self):
         return self.user.username

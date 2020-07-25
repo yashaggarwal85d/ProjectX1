@@ -52,6 +52,7 @@ class CreateIssue(LoginRequiredMixin, SelectRelatedMixin, generic.CreateView):
     # form_class = forms.IssueForm
     fields = ('name','message','project','tags')
     model = models.Issue
+    
 
     # def get_form_kwargs(self):
     #     kwargs = super().get_form_kwargs()

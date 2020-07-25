@@ -6,6 +6,11 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .forms import *
+from .models import *
+from projects.models import *
+from braces.views import SelectRelatedMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.views.generic.edit import DeleteView 
 
 def register(request):
 
@@ -41,6 +46,25 @@ def loginUser(request):
 	context = {}
 	return render(request, 'accounts/login.html', context)
 
+@login_required
 def logoutUser(request):
 	logout(request)
 	return redirect('home')
+
+@login_required
+def profile_page(request):
+	profiles = Profile.objects.all()
+	for profile in profiles:
+		if profile.user == request.user:
+			context = {'profile':profile}
+	return render(request,'accounts/profile.html',context)
+
+@login_required
+def delete_user(request):
+
+	if request.method == 'POST':
+		u= request.user
+		u.delete()
+		return redirect('/')
+	else:
+		return render(request,'accounts/confirm_delete.html')
