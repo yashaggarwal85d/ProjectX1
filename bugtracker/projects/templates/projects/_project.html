@@ -15,7 +15,7 @@
                     <span class="text-success"> <i
                             class="mdi mdi-arrow-bottom-right"></i>{{ project.issues.count }} issue{{ project.issues.count|pluralize }}</span>
                     {% endif %}
-                    <span class="text-muted">{{project.description}}</span>
+                    <span class="text-muted">{{project.description|safe}}</span>
                 </div>
             </div>
         </div>

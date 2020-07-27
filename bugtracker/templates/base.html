@@ -168,7 +168,14 @@
     </div>
 
     <script src="{% static 'js/app.js' %}"></script>
-
+    <script src="{% static 'js/tagsinput.js' %}"></script>
+    
+    <script>
+        if( '{{message}}' !='')
+        {
+        alert('{{message}}')
+        }
+    </script>
     <script>
         $(function () {
             var ctx = document.getElementById('chartjs-dashboard-line').getContext("2d");

@@ -10,5 +10,4 @@ urlpatterns = [
     url(r"^logout/$",views.logoutUser,name='logout'),
     url(r"^profile/$",views.profile_page,name='profile'),
     url(r"^deluser/$",views.delete_user,name="deluser"),
-    
 ]

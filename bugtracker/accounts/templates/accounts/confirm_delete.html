@@ -1,6 +1,22 @@
-<form method="POST" action="{% url 'accounts:deluser' %}" >
-    {% csrf_token %}
-    <h1>Are you sure you want to delete your account</h1>
-    <button>delete</button>
-</form>
-<a href="{% url 'home' %}">Cancel</a>
+{% extends 'base.html' %}
+{% block content %}
+
+<main class="content">
+    <div class="container-fluid p-0">
+
+        <div class="row mb-2 mb-xl-3">
+            <div class="col-auto d-none d-sm-block">
+                <h3><strong>Are you sure you want to delete your account ?</strong><br> Once deleted there is no going
+                    back</h3>
+            </div>
+        </div>
+
+        <form method="POST" action="{% url 'accounts:deluser' %}">
+            {% csrf_token %}
+            <input class="btn btn-pill btn-danger" type="submit" value="Confirm Delete">
+            <a class="btn btn-pill btn-primary" href="{% url 'home' %}">Cancel</a>
+        </form>
+    </div>
+</main>
+
+{% endblock %}

@@ -3,24 +3,18 @@ from django.urls import reverse
 from django.db import models
 from django.contrib.auth import get_user_model
 from django import template
-
+from taggit.managers import TaggableManager
+from ckeditor.fields import RichTextField
 
 User = get_user_model()
 register = template.Library()
-
-class Tag(models.Model):
-    name = models.CharField(max_length=255, unique=True)
-    def __str__(self):
-        return self.name
-    class Meta:
-        ordering = ["name"]
 
 class Project(models.Model):
     user = models.ForeignKey(User,null=True,on_delete=models.CASCADE,related_name='projects')
     name = models.CharField(max_length=255, unique=True)
     created_at = models.DateTimeField(auto_now=True)
-    description = models.TextField(blank=True, default='',max_length=512)
-    tags = models.ManyToManyField(Tag)
+    description = RichTextField(blank=True,null=True)
+    tags = TaggableManager()
     complete = models.BooleanField(default = False)
     members = models.ManyToManyField(User,through="ProjectMember")
 

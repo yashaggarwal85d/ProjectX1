@@ -6,6 +6,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .forms import *
+from django.views import generic
 from .models import *
 from projects.models import *
 from braces.views import SelectRelatedMixin
@@ -19,8 +20,12 @@ def register(request):
 		form = CreateUserForm(request.POST)
 		if form.is_valid():
 			user = form.save()
+			p=Profile(user=user)
+			p.save()
+			form.save_m2m()
+			login(request, user)
 			messages.success(request, 'Account was created')
-			return redirect('accounts:login')
+			return redirect('set')
 		else:
 			messages.info(request, 'Username or email already registered')
 			context = {'form':form}
@@ -28,6 +33,22 @@ def register(request):
 
 	context = {'form':form}
 	return render(request, 'accounts/register.html', context)
+
+# def create_profile(request):
+# 	profile = request.user.profile
+# 	form = CreateProfileForm(instance=profile)
+
+# 	if request.method == 'POST':
+# 		form = CreateProfileForm(request.POST,instance=profile)
+# 		if form.is_valid():
+# 			form.save()
+# 			return redirect('/')
+# 		else:
+# 			context = {'form':form,'message':"error"} 
+# 			return render(request,'accounts/profile_form.html',context)		
+			
+# 	context = {'form':form}
+# 	return render(request,'accounts/profile_form.html',context)
 
 def loginUser(request):
 

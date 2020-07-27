@@ -13,7 +13,7 @@
                         <h5 class="card-title mb-0">Profile Details</h5>
                     </div>
                     <div class="card-body text-center">
-                        <img src="{{profile.profile_pic.url}}" alt="Christina Mason" class="rounded-circle img-responsive mt-2" width="128" height="128" />
+                        <img src="{{profile.profile_pic.url}}" alt="Profile pic" class="rounded-circle img-responsive mt-2" width="128" height="128" />
                         <h5 class="card-title mb-0"><br>{{profile.first_name.capitalize}}</h5>
                         <div class="text-muted mb-2">{{profile.occupation.capitalize}}</div>
 
@@ -27,7 +27,7 @@
                     <div class="card-body">
                         <h5 class="h6 card-title">Skills</h5>
                         {% for skill in profile.skills.all %}
-                        <a href="#" class="badge badge-primary mr-1 my-1">{{skill}}</a>
+                        <a href="{% url 'projects:tagged' pk=skill.pk %}" class="badge badge-primary mr-1 my-1">{{skill}}</a>
                         {% endfor %}
                     </div>
                     <hr class="my-0" />

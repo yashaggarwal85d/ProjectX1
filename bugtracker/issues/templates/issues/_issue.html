@@ -5,6 +5,8 @@
 	<td class="d-none d-xl-table-cell">{{issue.user.username}}</td>
 	<td class="d-none d-xl-table-cell">{{issue.project.name}}</td>
 	<td class="d-none d-xl-table-cell">{{issue.members.count}}</td>
+	<td class="d-none d-xl-table-cell">{{issue.priority}}</td>
+	<td class="d-none d-xl-table-cell">{{issue.deadline}}</td>
 
 	{% if issue.solve == False %}
 	{% if issue.user == user and not hide_delete %}

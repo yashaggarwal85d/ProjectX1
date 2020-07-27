@@ -2,7 +2,7 @@
 {% block content %}
 
 <main class="content">
-    
+
     <div class="container-fluid p-0">
         <div class="row mb-2 mb-xl-3">
             <div class="col-auto d-none d-sm-block">
@@ -25,9 +25,9 @@
     </div>
 
     <div class="row">
-        <div class="col-12 col-lg-8 col-xxl-9 d-flex">
-            <div class="card flex-fill">
-                <div class="card-header">
+		<div class="card flex-fill">
+			<div class="card-header">
+
 
                     <h5 class="card-title mb-0"><strong>{{search_term.capitalize}}</strong> Issues</h5>
                 </div>
@@ -38,7 +38,9 @@
                             <th class="d-none d-xl-table-cell">Created At</th>
                             <th class="d-none d-xl-table-cell">Created By</th>
                             <th class="d-none d-xl-table-cell">Project</th>
-                            <th class="d-none d-xl-table-cell">Members working</th>
+                            <th class="d-none d-xl-table-cell">Members Working</th>
+                            <th class="d-none d-xl-table-cell">Priority</th>
+                            <th class="d-none d-xl-table-cell">Deadline</th>
                             <th>Status</th>
                             <th>Actions</th>
                         </tr>
@@ -52,7 +54,6 @@
             </div>
         </div>
 
-    </div>
 </main>
 
 {% endblock %}

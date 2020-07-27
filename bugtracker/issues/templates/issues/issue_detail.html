@@ -57,7 +57,7 @@
                         <div class="card-body">
                             <h5 class="h6 card-title">Tags</h5>
                             {% for tag in issue.tags.all %}
-                            <a href="#" class="badge badge-primary mr-1 my-1">{{tag}}</a>
+                            <a href="{% url 'projects:tagged' pk=tag.pk %}" class="badge badge-primary mr-1 my-1">{{tag|safe}}</a>
                             {% endfor %}
     
                         </div>
@@ -65,13 +65,14 @@
                         <div class="card-body">
                             <h5 class="h6 card-title">About</h5>
                             <ul class="list-unstyled mb-0">
-                                <li class="mb-1"><span data-feather="file-plus" class="feather-sm mr-1"></span> Created At
-                                    <a href="#">  {{issue.created_at}}</a></li>
-    
-                                <li class="mb-1"><span data-feather="users" class="feather-sm mr-1"></span> People
-                                    working on this  <a href="#"> {{issue.members.count}}</a></li>
-                                <li class="mb-1"><span data-feather="book" class="feather-sm mr-1"></span> Project
-                                    <a href="#"> {{issue.project.name}}</a></li>
+                                <li class="mb-1"><span data-feather="file-plus" class="feather-sm mr-1"></span> Created At <a href="#">  {{issue.created_at}}</a></li>
+                                <li class="mb-1"><span data-feather="user" class="feather-sm mr-1"></span> Created By <a href="#"> {{issue.user.username}}</a></li>
+                                <li class="mb-1"><span data-feather="users" class="feather-sm mr-1"></span> People working on this  <a href="#"> {{issue.members.count}}</a></li>
+                                <li class="mb-1"><span data-feather="book" class="feather-sm mr-1"></span> Project <a href="#"> {{issue.project.name}}</a></li>
+                                <li class="mb-1"><span data-feather="list" class="feather-sm mr-1"></span> Priority <a href="#"> {{issue.priority}}</a></li>
+                                <li class="mb-1"><span data-feather="alert-circle" class="feather-sm mr-1"></span> Deadline <a href="#"> {{issue.deadline}}</a></li>
+                                            
+
                             </ul>
                         </div>
                         <hr class="my-0" />
@@ -87,8 +88,8 @@
                         <div class="card-body h-100">
     
                             <hr />
-                            <div style="white-space:pre-wrap">
-                                {{issue.message}}
+                            <div>
+                                {{issue.message|safe}}
                             
                             </div>
                             <hr />

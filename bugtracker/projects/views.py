@@ -6,28 +6,43 @@ from django.db import IntegrityError
 from django.shortcuts import get_object_or_404,redirect,render
 from django.views import generic
 from projects.models import Project,ProjectMember
+from issues.models import *
 from . import models
+from . import forms
+from taggit.models import Tag
 
 # Create your views here.
 
 class CreateProject(LoginRequiredMixin, SelectRelatedMixin,generic.CreateView):
-    fields = ('name','description','tags')
+    
     model = Project
+    form_class = forms.ProjectForm
+    template_name = 'projects/project_form.html'
     
     def form_valid(self, form):
         self.object = form.save(commit=False)
         self.object.user = self.request.user
         self.object.save()
+        form.save_m2m()
         ProjectMember.objects.create(user=self.request.user,project=self.object)
         return super().form_valid(form)
 
+def tagged(request,pk):
+    tag=get_object_or_404(Tag,pk=pk)
+    issues=Issue.objects.filter(tags=tag)
+    projects=Project.objects.filter(tags=tag)
+    search_term = str(tag)
+    context = {'search_term':search_term,'tag':tag,'projects':projects,'issues':issues}
+    return render(request,'search_result.html',context) 
 
 class SingleProject(generic.DetailView):
     model = Project
 
-class ListProjects(generic.ListView):
-    model = Project
-    
+def ListProjects(request):
+    projects = Project.objects.all()
+    context = {'projects':projects}
+    return render(request,'projects/project_list.html',context)
+
 
 class JoinProject(LoginRequiredMixin, generic.RedirectView):
 

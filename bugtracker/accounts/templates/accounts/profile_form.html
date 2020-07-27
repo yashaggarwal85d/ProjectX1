@@ -1,0 +1,27 @@
+{% extends 'accounts/account_base.html' %}
+{% block content %}
+
+<div class="col-md-7">
+    <div class="card-body">
+        <div class="brand-wrapper">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTYzjGDN5wm2y-2wGxKEZPkd3lvqXEZCiherw&usqp=CAU"
+                alt="logo" class="logo">
+        </div>
+        <p class="login-card-description">Tell us more about you</p>
+        <form method="POST" action="{% url 'accounts:create_profile' %}">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-md-8">
+                    {{form}}
+                    <div class="form-group row">
+                        <div class="col-sm-10 ml-sm-auto">
+                            <button type="submit" class="btn btn-primary">Create</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

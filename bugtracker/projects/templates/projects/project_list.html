@@ -11,21 +11,20 @@
             </div>
         </div>
 
-{% endblock %}
+        {% endblock %}
 
-{% block project_content %}
+        {% block project_content %}
 
-                <div class="w-100">
-                    <div class="row">
-						
-						{% for project in object_list %}
-                        {% include "projects/_project.html" %}
-						{% endfor %}
-					
-					</div>
-                </div>
-            
 
+        <div class="w-100">
+            <div class="row">
+
+                {% for project in projects %}
+                {% include "projects/_project.html" %}
+                {% endfor %}
+
+            </div>
+        </div>
     </div>
 </main>
 {% endblock %}

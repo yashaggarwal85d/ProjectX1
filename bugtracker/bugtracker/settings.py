@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'projects',
     'bootstrap4',
     'django_filters',
+    'taggit',
+    'ckeditor',
 ]
 
 MIDDLEWARE = [

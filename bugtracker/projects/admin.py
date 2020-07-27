@@ -8,4 +8,3 @@ class ProjectMemberInline(admin.TabularInline):
 
 
 admin.site.register(models.Project)
-admin.site.register(models.Tag)

@@ -48,28 +48,28 @@ class IssueDetail(SelectRelatedMixin, generic.DetailView):
             user__username__iexact=self.kwargs.get("username")
         )
 
-class CreateIssue(LoginRequiredMixin, SelectRelatedMixin, generic.CreateView):
-    # form_class = forms.IssueForm
-    fields = ('name','message','project','tags')
+class CreateIssue(LoginRequiredMixin, SelectRelatedMixin,generic.CreateView):
     model = models.Issue
-    
+    form_class = forms.IssueForm
+    template_name = 'issues/issue_form.html'
 
-    # def get_form_kwargs(self):
-    #     kwargs = super().get_form_kwargs()
-    #     kwargs.update({"user": self.request.user})
-    #     return kwargs
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs.update({"user": self.request.user})
+        return kwargs
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
         self.object.user = self.request.user
         self.object.save()
+        form.save_m2m()
         return super().form_valid(form)
-
+    
 
 class DeleteIssue(LoginRequiredMixin, SelectRelatedMixin,generic.DeleteView):
     model = models.Issue
     select_related = ("user", "project")
-    success_url = reverse_lazy("issues:all")
+    success_url = reverse_lazy("home")
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -84,7 +84,7 @@ class DeleteIssue(LoginRequiredMixin, SelectRelatedMixin,generic.DeleteView):
 class JoinIssue(LoginRequiredMixin, generic.RedirectView):
 
     def get_redirect_url(self, *args, **kwargs):
-        return reverse("issues:all")
+        return reverse("home")
 
     def get(self, request, *args, **kwargs):
         issue = get_object_or_404(models.Issue,pk=self.kwargs.get("pk"))
@@ -104,7 +104,7 @@ class JoinIssue(LoginRequiredMixin, generic.RedirectView):
 class LeaveIssue(LoginRequiredMixin, generic.RedirectView):
 
     def get_redirect_url(self, *args, **kwargs):
-        return reverse("issues:all")
+        return reverse("home")
 
     def get(self, request, *args, **kwargs):
 
@@ -133,12 +133,22 @@ def SolveIssue(request,pk):
     issue = models.Issue.objects.get(id=pk)
     issue.solve = True
     issue.save()
-    return redirect('issues:all')
+    return redirect('home')
 
 def UpdateIssue(request,pk):
 
     issue = models.Issue.objects.get(id=pk)
     form = forms.IssueForm(instance=issue)
-    
-    context = {'form':form}
-    return render(request, 'issues/issue_form.html', context)
+    message=''   
+        
+    if request.method == 'POST':
+        form = forms.IssueForm(request.POST,instance=issue)
+        if form.is_valid():
+            form.save()
+            message = "issue edited successfully"
+            return redirect('/')
+        else:
+            message = "Error, please check the details again"
+ 
+    context = {'form':form,'message':message,'issue':issue}
+    return render(request, 'issues/issue_update_form.html', context)
