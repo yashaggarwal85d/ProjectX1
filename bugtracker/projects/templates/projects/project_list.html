@@ -1,0 +1,24 @@
+{% extends "projects/project_base.html" %}
+{% block project_content %}
+
+<main class="content">
+    <div class="container-fluid p-0">
+
+        <div class="row mb-2 mb-xl-3">
+            <div class="col-auto d-none d-sm-block">
+                <h3><strong>Projects</strong> List</h3>
+            </div>
+        </div>
+
+        <div class="w-100">
+            <div class="row">
+
+                {% for project in projects %}
+                {% include "projects/_project.html" %}
+                {% endfor %}
+
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

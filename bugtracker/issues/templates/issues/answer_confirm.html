@@ -1,0 +1,41 @@
+{% extends "issues/issue_base.html" %}
+{% block issue_content %}
+
+<main class="content">
+    <div class="container-fluid p-0">
+
+        <div class="row mb-2 mb-xl-3">
+            <div class="col-auto d-none d-sm-block">
+                <h3><strong>Are you sure you want to accept this answer</strong><br> and mark this issue ?</h3>
+            </div>
+        </div>
+        <div class="media">
+            <img src="{{answer.user.profile.profile_pic.url}}" width="36" height="36" class="rounded-circle mr-2"
+                alt="profile_pic">
+            <div class="media-body">
+                <small class="float-right text-navy">{{answer.date_added}}</small>
+                <strong>{{answer.user.username}}</strong> Answered <br />
+
+                <div style="font-size:15px;" class="border text-sm text-muted p-2 mt-1">
+                    {{answer.message|safe}}
+                </div>
+
+                <a href="{% url 'issues:like' pk=answer.pk %}"><i class="align-middle mr-2"
+                        data-feather="thumbs-up"></i></a><span
+                    class="align-middle">{{answer.likes.count}}</span><br><br>
+            </div>
+        </div>
+        <hr />
+
+    </div>
+
+
+    <form method="POST" action="{% url 'issues:accept' pk=answer.pk %}">
+        {% csrf_token %}
+        <input class="btn btn-pill btn-success" type="submit" value="Confirm">
+        <a class="btn btn-pill btn-primary"
+            href="{% url 'issues:single' pk=issue.pk %}">Cancel</a>
+    </form>
+
+</main>
+{% endblock %}

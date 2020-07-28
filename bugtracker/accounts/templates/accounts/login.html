@@ -1,0 +1,34 @@
+{% extends 'accounts/account_base.html' %}
+{% block content %}
+
+<div class="col-md-5">
+    <img src="https://images2.minutemediacdn.com/image/upload/c_fill,g_auto,h_1248,w_2220/f_auto,q_auto,w_1100/v1555300675/shape/mentalfloss/istock_54003500_medium.jpg"
+        alt="login" class="login-card-img">
+</div>
+<div class="col-md-7">
+    <div class="card-body">
+        <div class="brand-wrapper">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTYzjGDN5wm2y-2wGxKEZPkd3lvqXEZCiherw&usqp=CAU"
+                alt="logo" class="logo">
+        </div>
+        <p class="login-card-description">Sign into your account</p>
+        <form method="POST" action="">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="Username" class="sr-only">Username</label>
+                <input type="text" name="username" id="name" class="form-control" placeholder="Username...">
+            </div>
+            <div class="form-group mb-4">
+                <label for="password" class="sr-only">Password</label>
+                <input type="password" name="password" id="password" class="form-control" placeholder="***********">
+            </div>
+            <input name="login" id="login" class="btn btn-block login-btn mb-4" type="submit" value="Login">
+        </form>
+
+        <a href="#" class="forgot-password-link">Forgot password?</a>
+        <p class="login-card-footer-text">Don't have an account? <a href="{% url 'accounts:register' %}"
+                class="text-reset">Register here</a></p>
+    </div>
+</div>
+
+{% endblock %}

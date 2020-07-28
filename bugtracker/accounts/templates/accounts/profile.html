@@ -1,0 +1,222 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<main class="content">
+    <div class="container-fluid p-0">
+
+        <h1 class="h3 mb-3">Profile</h1>
+
+        <div class="row">
+            <div class="col-md-4 col-xl-3">
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">Profile Details</h5>
+                    </div>
+                    <div class="card-body text-center">
+                        <img src="{{profile.profile_pic.url}}" alt="Profile pic"
+                            class="rounded-circle img-responsive mt-2" width="128" height="128" />
+                        <h5 class="card-title mb-0"><br>{{profile.first_name.capitalize}}</h5>
+                        <div class="text-muted mb-2">{{profile.occupation.capitalize}}</div>
+
+                        <div>
+                            {% if user != profile.user %}
+                            <a class="btn btn-primary btn-sm" href="#"><span data-feather="message-square"></span>
+                                Message</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <hr class="my-0" />
+                    <div class="list-group list-group-flush" role="tablist">
+                        <a class="list-group-item list-group-item-action active" data-toggle="list" href="#answers"
+                            role="tab">
+                            Answers
+                        </a>
+                        <a class="list-group-item list-group-item-action" data-toggle="list" href="#issues" role="tab">
+                            Issues
+                        </a>
+                        <a class="list-group-item list-group-item-action" data-toggle="list" href="#projects"
+                            role="tab">
+                            Projects
+                        </a>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="h6 card-title">Skills</h5>
+                        {% for skill in profile.skills.all %}
+                        <a href="{% url 'projects:tagged' pk=skill.pk %}"
+                            class="badge badge-primary mr-1 my-1">{{skill|safe}}</a>
+                        {% endfor %}
+                    </div>
+                    <hr class="my-0" />
+                    <div class="card-body">
+                        <h5 class="h6 card-title">About</h5>
+                        <ul class="list-unstyled mb-0">
+                            <li class="mb-1"><span data-feather="home" class="feather-sm mr-1"></span> Lives in <a
+                                    href="#">{{profile.location.capitalize}}</a></li>
+
+                            <li class="mb-1"><span data-feather="briefcase" class="feather-sm mr-1"></span> Works or
+                                study at <a href="#">{{profile.works_at.capitalize}}</a></li>
+                            <li class="mb-1"><span data-feather="map-pin" class="feather-sm mr-1"></span> From <a
+                                    href="#">{{profile.country}}</a></li>
+                        </ul>
+                    </div>
+                    <hr class="my-0" />
+                </div>
+            </div>
+
+            <div class="col-md-8 col-xl-9">
+                <div class="card tab-content">
+                    <div class="tab-pane fade show active" id="answers" role="tabpanel">
+
+                        {% if not answers %}
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">No Answers posted</h5>
+                        </div>
+                        {% else %}
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">Answers</h5>
+                        </div>
+
+                        <div class="card-body h-100">
+
+                            {% for answer in answers %}
+                            <div class="media">
+                                <div class="media-body">
+                                    <small class="float-right text-navy">{{answer.date_added}}</small>
+                                    <strong>Posted</strong> Answer in <strong><a
+                                            href="{% url 'issues:single' pk=answer.issue.pk %}">{{answer.issue.name}}</a></strong><br />
+
+                                    <div style="font-size:15px;" class="border text-sm text-muted p-2 mt-1">
+                                        {{answer.message|safe}}
+                                    </div>
+
+                                    <a href="{% url 'issues:like' pk=answer.pk %}"><i class="align-middle mr-2"
+                                            data-feather="thumbs-up"></i></a><span
+                                        class="align-middle">{{answer.likes.count}}</span><br><br>
+
+                                </div>
+                            </div>
+                            {% endfor %}
+                            <hr />
+                        </div>
+                        {% endif %}
+
+                    </div>
+
+                    <div class="tab-pane fade" id="issues" role="tabpanel">
+
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">Issues</h5>
+                        </div>
+
+                        {% if not issues %}
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">No Created Issues</h5>
+                        </div>
+                        {% else %}
+                        <div class="card-header">
+
+                            <h5 class="card-title mb-0"> Created Issues</h5>
+                        </div>
+
+                        <table class="table table-hover my-0">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th class="d-none d-xl-table-cell">Created At</th>
+                                    <th class="d-none d-xl-table-cell">Created By</th>
+                                    <th class="d-none d-xl-table-cell">Project</th>
+                                    <th class="d-none d-xl-table-cell">Members Working</th>
+                                    <th class="d-none d-xl-table-cell">Priority</th>
+                                    <th class="d-none d-xl-table-cell">Deadline</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for issue in issues %}
+                                {% include 'issues/_issue.html' %}
+                                {% endfor %}
+
+                            </tbody>
+                        </table>
+                        {% endif %}
+
+                        {% if not issues_member %}
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">No Working Issues</h5>
+                        </div>
+                        {% else %}
+                        <div class="card-header">
+
+                            <h5 class="card-title mb-0"> Working Issues</h5>
+                        </div>
+
+                        <table class="table table-hover my-0">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th class="d-none d-xl-table-cell">Created At</th>
+                                    <th class="d-none d-xl-table-cell">Created By</th>
+                                    <th class="d-none d-xl-table-cell">Project</th>
+                                    <th class="d-none d-xl-table-cell">Members Working</th>
+                                    <th class="d-none d-xl-table-cell">Priority</th>
+                                    <th class="d-none d-xl-table-cell">Deadline</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for issue in issues_member %}
+                                {% include 'issues/_issue.html' %}
+                                {% endfor %}
+
+                            </tbody>
+                        </table>
+                        {% endif %}
+
+                    </div>
+
+                    <div class="tab-pane fade" id="projects" role="tabpanel">
+
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">Projects</h5>
+                        </div>
+
+                        {% if not projects %}
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">No Created projects</h5>
+                        </div>
+                        {% else %}
+                        <div class="card-header">
+                            <h5 class="card-title mb-0"> Created projects</h5>
+                        </div>
+                        {% for project in projects %}
+                        {% include 'projects/_project.html' %}
+                        {% endfor %}
+
+                        {% endif %}
+
+                        {% if not projects_member %}
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">No project joined</h5>
+                        </div>
+                        {% else %}
+                        <div class="card-header">
+                            <h5 class="card-title mb-0"> Working projects</h5>
+                        </div>
+
+                        {% for project in projects_member %}
+                        {% include 'projects/_project.html' %}
+                        {% endfor %}
+
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</main>
+
+
+{% endblock %}

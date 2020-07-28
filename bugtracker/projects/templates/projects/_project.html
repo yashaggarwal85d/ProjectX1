@@ -1,0 +1,23 @@
+<div class="col-sm-6">
+    <a style="text-decoration: none;" href="{% url 'projects:single' pk=project.pk %}">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title mb-4">{{ project.members.count }}
+                    member{{ project.members.count|pluralize }}</h5>
+                <h1 class="display-5 mt-1 mb-3">{{ project.name }}</h1>
+                <div class="mb-1">
+
+                    {% if project.complete == False %}
+                    <span class="text-danger"> <i
+                            class="mdi mdi-arrow-bottom-right"></i>{{ project.issues.count }}
+                        issue{{ project.issues.count|pluralize }}</span><br>
+                    {% else %}
+                    <span class="text-success"> <i
+                            class="mdi mdi-arrow-bottom-right"></i>{{ project.issues.count }} issue{{ project.issues.count|pluralize }}</span>
+                    {% endif %}
+                    <span class="text-muted">{{project.description|safe}}</span>
+                </div>
+            </div>
+        </div>
+    </a>
+</div> 

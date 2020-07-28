@@ -1,0 +1,188 @@
+{% extends "issues/issue_base.html" %}
+
+{% block issue_content %}
+<div>
+    <main class="content">
+        <div class="container-fluid p-0">
+
+            <h1 class="h3 mb-3">Issue</h1>
+
+            <div class="row">
+                <div class="col-md-4 col-xl-3">
+                    <div class="card mb-3">
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">Issue Details</h5>
+                        </div>
+                        <div class="card-body text-center">
+                            <h1 style="font-size: 35px;" class="card-title mb-0">{{issue.name.capitalize}}</h1>
+                            <div class="text-muted mb-2">{{issue.project.name.capitalize}}</div>
+
+                            <div>
+
+                                {% if issue.solve == False %}
+                                {% if issue.user == user and not hide_delete %}
+                                <span class="badge badge-danger"><a href="{% url 'issues:solve' pk=issue.pk %}">Mark
+                                        solved</a></span>
+                                {% else %}
+                                <span class="badge badge-warning">Pending</span>
+                                {% endif %}
+                                {% else %}
+                                <span class="badge badge-success">Done</span>
+
+                                {% endif %}
+
+                                {% if issue.solve == False %}
+                                {% if issue.user == user %}
+                                <a href="{% url 'issues:update' pk=issue.pk %}"><i class="align-middle"
+                                        data-feather="edit-2"></i></a>
+                                <a href="{% url 'issues:delete' pk=issue.pk %}"><i class="align-middle"
+                                        data-feather="trash"></i></a>
+                                {% else %}
+                                {% if user in issue.members.all %}
+                                <a href="{% url 'issues:leave' pk=issue.pk %}"></span>quit</a>
+                                {% else %}
+                                <a href="{% url 'issues:join' pk=issue.pk  %}"></span>workon</a>
+                                {% endif %}
+                                {% endif %}
+                                {% else %}
+
+                                {% if user in issue.members.all and issue.user != user %}
+                                <td><a href="{% url 'issues:leave' pk=issue.pk %}"></span>quit</a></td>
+                                {% endif %}
+                                {% endif %}
+
+
+
+                            </div>
+                        </div>
+                        <hr class="my-0" />
+                        <div class="card-body">
+                            <h5 class="h6 card-title">Tags</h5>
+                            {% for tag in issue.tags.all %}
+                            <a href="{% url 'projects:tagged' pk=tag.pk %}"
+                                class="badge badge-primary mr-1 my-1">{{tag|safe}}</a>
+                            {% endfor %}
+
+                        </div>
+                        <hr class="my-0" />
+                        <div class="card-body">
+                            <h5 class="h6 card-title">About</h5>
+                            <ul class="list-unstyled mb-0">
+                                <li class="mb-1"><span data-feather="file-plus" class="feather-sm mr-1"></span> Created
+                                    At <a href="#"> {{issue.created_at}}</a></li>
+                                <li class="mb-1"><span data-feather="user" class="feather-sm mr-1"></span> Created By <a
+                                        href="#"> {{issue.user.username}}</a></li>
+                                <li class="mb-1"><span data-feather="users" class="feather-sm mr-1"></span> People
+                                    working on this <a href="#"> {{issue.members.count}}</a></li>
+                                <li class="mb-1"><span data-feather="book" class="feather-sm mr-1"></span> Project <a
+                                        href="#"> {{issue.project.name}}</a></li>
+                                <li class="mb-1"><span data-feather="list" class="feather-sm mr-1"></span> Priority <a
+                                        href="#"> {{issue.priority}}</a></li>
+                                <li class="mb-1"><span data-feather="alert-circle" class="feather-sm mr-1"></span>
+                                    Deadline <a href="#"> {{issue.deadline}}</a></li>
+
+
+                            </ul>
+                        </div>
+                        <hr class="my-0" />
+                    </div>
+                </div>
+
+                <div class="col-md-8 col-xl-9">
+                    <div class="card">
+                        <div class="card-header">
+
+                            <h5 class="card-title mb-0">Message</h5>
+                        </div>
+                        <div class="card-body h-100">
+                            <hr />
+                            <div>
+                                {{issue.message|safe}}
+
+                            </div>
+                            <hr />
+                            {% if not issue.answers.all %}
+                            <div>
+                                <h1>No Answers yet</h1>
+                            </div>
+                            <hr/>
+                            {% else %}
+
+                            {% if accepted_answers %}
+                            <h3>Accepted Answers</h3><br>
+                            {% for answer in accepted_answers %}
+                            <div class="media">
+                                <img src="{{answer.user.profile.profile_pic.url}}" width="36" height="36"
+                                    class="rounded-circle mr-2" alt="profile_pic">
+                                <div class="media-body">
+                                    <small class="float-right text-navy">{{answer.date_added}}</small>
+                                    <strong>{{answer.user.username}}</strong> Answered <br />
+
+                                    <div style="font-size:15px;" class="border text-sm text-muted p-2 mt-1">
+                                        {{answer.message|safe}}
+                                    </div>
+
+                                    <a href="{% url 'issues:like' pk=answer.pk %}"><i class="align-middle mr-2"
+                                            data-feather="thumbs-up"></i></a><span
+                                        class="align-middle">{{answer.likes.count}}</span><br><br>
+                                </div>
+                            </div>
+                            {% endfor %}
+                            {% endif %}
+
+                            {% if potential_answers %}
+                            <h3>Potential Answers</h3><br>
+                            {% for answer in potential_answers %}
+                            <div class="media">
+                                <img src="{{answer.user.profile.profile_pic.url}}" width="36" height="36"
+                                    class="rounded-circle mr-2" alt="profile_pic">
+                                <div class="media-body">
+                                    <small class="float-right text-navy">{{answer.date_added}}</small>
+                                    <strong>{{answer.user.username}}</strong> Answered <br />
+
+                                    <div style="font-size:15px;" class="border text-sm text-muted p-2 mt-1">
+                                        {{answer.message|safe}}
+                                    </div>
+
+                                    <a href="{% url 'issues:like' pk=answer.pk %}"><i class="align-middle mr-2"
+                                            data-feather="thumbs-up"></i></a><span
+                                        class="align-middle">{{answer.likes.count}}</span><br><br>
+                                    {% if issue.user == user and issue.solve == False %}
+                                    <a href="{% url 'issues:accept' pk=answer.pk %}" class="btn btn-success">accept
+                                        answer</a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <hr />
+                            {% endfor %}
+                            {% endif %}
+                            {% endif %}
+
+                            {% if user in issue.members.all or issue.user == user %}
+
+                            <div>
+                                <h2><br>Your Answer</h2>
+                            </div>
+                            <form method="POST" action="{% url 'issues:single' pk=issue.pk %}">
+                                {% csrf_token %}
+                                {{form.media}}
+                                {{form.as_p}}
+                                <button type="submit" class="btn btn-primary">Post</button>
+
+                            </form>
+                            {% else %}
+                            <div>
+                                <h2><br>Join the issue to post an answer</h2>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+</div>
+
+
+{% endblock %}

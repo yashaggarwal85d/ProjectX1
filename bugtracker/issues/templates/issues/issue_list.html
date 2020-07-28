@@ -1,0 +1,47 @@
+{% extends "issues/issue_base.html" %}
+{% load humanize %}
+
+{% block pre_issue_content %}
+{% endblock %}
+{% block issue_content %}
+<main class="content">
+
+	<div class="row mb-2 mb-xl-3">
+		<div class="col-auto d-none d-sm-block">
+			<h3><strong>All</strong> Issues</h3>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="card flex-fill">
+			<div class="card-header">
+
+				<h5 class="card-title mb-0">Issues</h5>
+			</div>
+			<table class="table table-hover my-0">
+				<thead>
+					<tr>
+						<th>Name</th>
+						<th class="d-none d-xl-table-cell">Created At</th>
+						<th class="d-none d-xl-table-cell">Created By</th>
+						<th class="d-none d-xl-table-cell">Project</th>
+						<th class="d-none d-xl-table-cell">Members Working</th>
+						<th class="d-none d-xl-table-cell">Priority</th>
+						<th class="d-none d-xl-table-cell">Deadline</th>
+						<th>Status</th>
+						<th>Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for issue in issue_list %}
+					{% include 'issues/_issue.html' %}
+					{% endfor %}
+
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+
+</main>
+{% endblock %}
