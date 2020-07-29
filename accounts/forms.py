@@ -14,7 +14,7 @@ class CreateProfileForm(ModelForm):
     class Meta:
         model = Profile
         fields = '__all__'
-        exclude = ['user']
+        exclude = ['user','reputation_points']
         help_texts = {'skills':''}
         
         widgets = {
