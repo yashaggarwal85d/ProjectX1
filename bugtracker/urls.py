@@ -15,4 +15,6 @@ urlpatterns = [
     url(r"^projects/", include("projects.urls", namespace="projects")),
     url(r"^issues/",include("issues.urls", namespace="issues")),
 
-]+ static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
+]
+
+urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
