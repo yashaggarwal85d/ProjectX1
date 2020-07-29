@@ -10,6 +10,100 @@
             </div>
         </div>
 
+        <div class="row">
+            {% if not solved_issues and not pending_issues and not issues_member.count %}
+            {% else %}
+
+            <div class="col-md-3">
+                <div class="card">
+
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">Issues</h5>
+                    </div>
+                    <div class="card-body d-flex">
+                        <div class="align-self-center w-100">
+                            <div class="py-3">
+                                <div class="chart chart-xs">
+                                    <canvas id="chartjs-dashboard-pie"></canvas>
+                                </div>
+                            </div>
+
+                            <table class="table mb-0">
+                                <tbody>
+                                    <tr>
+                                        <td>Solved issues</td>
+                                        <td class="text-right">{{solved_issues}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Pending Issues</td>
+                                        <td class="text-right">{{pending_issues}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Working Issues</td>
+                                        <td class="text-right">{{issues_member.count}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            {% if not solved_projects and not pending_projects and not projects_member.count %}
+            {% else %}
+
+            <div class="col-md-3">
+                <div class="card">
+
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">Projects</h5>
+                    </div>
+                    <div class="card-body d-flex">
+                        <div class="align-self-center w-100">
+                            <div class="py-3">
+                                <div class="chart chart-xs">
+                                    <canvas id="chart2js-dashboard-pie"></canvas>
+                                </div>
+                            </div>
+
+                            <table class="table mb-0">
+                                <tbody>
+                                    <tr>
+                                        <td>Completed Projects</td>
+                                        <td class="text-right">{{solved_projects}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Pending Projects</td>
+                                        <td class="text-right">{{pending_projects}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Working Projects</td>
+                                        <td class="text-right">{{projects_member.count}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+
+                        <h5 class="card-title mb-0">Total Issues raised</h5>
+                    </div>
+                    <div class="card-body py-4">
+                        <div class="chart chart-sm">
+                            <canvas id="chartjs-dashboard-line"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+
         {% if not issues %}
         <div class="row mb-2 mb-xl-3">
             <div class="col-auto d-none d-sm-block">
@@ -136,5 +230,140 @@
         {% endif %}
     </div>
 </main>
+{% endblock %}
+{% block script %}
+<script>
+    $(function () {
+        // Pie chart
+        new Chart(document.getElementById("chartjs-dashboard-pie"), {
+            type: 'pie',
+            data: {
+                labels: ["Done", "Working", "Pending"],
+                datasets: [{
+                    data: ['{{solved_issues}}', '{{issues_member.count}}',
+                        '{{pending_issues}}'
+                    ],
+                    backgroundColor: [
+                        window.theme.success,
+                        window.theme.warning,
+                        window.theme.danger
+                    ],
+                    borderWidth: 5
+                }]
+            },
+            options: {
+                responsive: !window.MSInputMethodContext,
+                maintainAspectRatio: false,
+                legend: {
+                    display: false
+                },
+                cutoutPercentage: 75
+            }
+        });
+    });
+</script>
+<script>
+    $(function () {
+        // Pie chart
+        new Chart(document.getElementById("chart2js-dashboard-pie"), {
+            type: 'pie',
+            data: {
+                labels: ["Done", "Working", "Pending"],
+                datasets: [{
+                    data: ['{{solved_projects}}', '{{projects_member.count}}',
+                        '{{pending_projects}}'
+                    ],
+                    backgroundColor: [
+                        window.theme.success,
+                        window.theme.warning,
+                        window.theme.danger
+                    ],
+                    borderWidth: 5
+                }]
+            },
+            options: {
+                responsive: !window.MSInputMethodContext,
+                maintainAspectRatio: false,
+                legend: {
+                    display: false
+                },
+                cutoutPercentage: 75
+            }
+        });
+    });
+</script>
+<script>
+    $(function () {
+        var ctx = document.getElementById('chartjs-dashboard-line').getContext("2d");
+        var gradient = ctx.createLinearGradient(0, 0, 0, 225);
+        gradient.addColorStop(0, 'rgba(215, 227, 244, 1)');
+        gradient.addColorStop(1, 'rgba(215, 227, 244, 0)');
+        // Line chart
+        new Chart(document.getElementById("chartjs-dashboard-line"), {
+            type: 'line',
+            data: {
+                labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov",
+                    "Dec"
+                ],
+                datasets: [{
+                    label: "Sales ($)",
+                    fill: true,
+                    backgroundColor: gradient,
+                    borderColor: window.theme.primary,
+                    data: [
+                        21,
+                        15,
+                        15,
+                        18,
+                        15,
+                        19,
+                        25,
+                        24,
+                        28,
+                        34,
+                        29,
+                        33
+                    ]
+                }]
+            },
+            options: {
+                maintainAspectRatio: false,
+                legend: {
+                    display: false
+                },
+                tooltips: {
+                    intersect: false
+                },
+                hover: {
+                    intersect: true
+                },
+                plugins: {
+                    filler: {
+                        propagate: false
+                    }
+                },
+                scales: {
+                    xAxes: [{
+                        reverse: true,
+                        gridLines: {
+                            color: "rgba(0,0,0,0.0)"
+                        }
+                    }],
+                    yAxes: [{
+                        ticks: {
+                            stepSize: 10
+                        },
+                        display: true,
+                        borderDash: [3, 3],
+                        gridLines: {
+                            color: "rgba(0,0,0,0.0)"
+                        }
+                    }]
+                }
+            }
+        });
+    });
+</script>
+
 
 {% endblock %}

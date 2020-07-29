@@ -1,12 +1,12 @@
 <tr>
 	<td><a href="{% url 'issues:single' pk=issue.pk %}">{{issue.name}}</a>
 	</td>
-	<td class="d-none d-xl-table-cell">{{issue.created_at}}</td>
+	<td class="d-none d-xl-table-cell">{{issue.created_at|date:"d/m/yy"}}</td>
 	<td class="d-none d-xl-table-cell">{{issue.user.username}}</td>
 	<td class="d-none d-xl-table-cell">{{issue.project.name}}</td>
 	<td class="d-none d-xl-table-cell">{{issue.members.count}}</td>
 	<td class="d-none d-xl-table-cell">{{issue.priority}}</td>
-	<td class="d-none d-xl-table-cell">{{issue.deadline}}</td>
+	<td class="d-none d-xl-table-cell">{{issue.deadline|date:"d/m/yy"}}</td>
 
 	{% if issue.solve == False %}
 	{% if issue.user == user and not hide_delete %}

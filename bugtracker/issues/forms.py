@@ -1,6 +1,7 @@
 from django import forms
 from issues import models
 from projects.models import Project
+from django.db.models import Q
 
 class IssueForm(forms.ModelForm):
     class Meta:
@@ -25,10 +26,11 @@ class IssueForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         if user is not None:
             self.fields['project'].queryset = (
-                models.Project.objects.filter(
-                    members__pk=user.pk
-                )
+                models.Project.objects.filter( Q(user__pk=user.pk) | Q(members__pk=user.pk) )
             )
+
+
+
 
 class AnswerForm(forms.ModelForm):
     class Meta:

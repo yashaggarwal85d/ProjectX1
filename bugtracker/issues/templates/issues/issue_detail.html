@@ -71,7 +71,7 @@
                                 <li class="mb-1"><span data-feather="file-plus" class="feather-sm mr-1"></span> Created
                                     At <a href="#"> {{issue.created_at}}</a></li>
                                 <li class="mb-1"><span data-feather="user" class="feather-sm mr-1"></span> Created By <a
-                                        href="#"> {{issue.user.username}}</a></li>
+                                    href="{% url 'accounts:profile' pk=issue.user.pk %}"> {{issue.user.username}}</a></li>
                                 <li class="mb-1"><span data-feather="users" class="feather-sm mr-1"></span> People
                                     working on this <a href="#"> {{issue.members.count}}</a></li>
                                 <li class="mb-1"><span data-feather="book" class="feather-sm mr-1"></span> Project <a
@@ -138,7 +138,7 @@
                                     class="rounded-circle mr-2" alt="profile_pic">
                                 <div class="media-body">
                                     <small class="float-right text-navy">{{answer.date_added}}</small>
-                                    <strong>{{answer.user.username}}</strong> Answered <br />
+                                    <strong><a href="{% url 'accounts:profile' pk=answer.user.pk %}" >{{answer.user.username}}</a></strong> Answered <br />
 
                                     <div style="font-size:15px;" class="border text-sm text-muted p-2 mt-1">
                                         {{answer.message|safe}}

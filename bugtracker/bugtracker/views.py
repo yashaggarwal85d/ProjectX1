@@ -13,10 +13,14 @@ def home(request):
     context = {}
     if request.user.is_authenticated:
         issues = request.user.issues.all()
-        projects = request.user.issues.all()
+        projects = request.user.projects.all()
+        pending_issues = request.user.issues.filter(solve=False).count
+        solved_issues = request.user.issues.filter(solve=True).count
+        pending_projects = request.user.projects.filter(complete=False).count
+        solved_projects = request.user.projects.filter(complete=True).count
         issues_member = Issue.objects.filter( members__pk = request.user.pk )
         projects_member = Project.objects.filter( members__pk = request.user.pk )
-        context = {'issues':issues,'projects':projects,'projects_member':projects_member,'issues_member':issues_member}
+        context = {'issues':issues,'projects':projects,'projects_member':projects_member,'issues_member':issues_member,'pending_issues':pending_issues,'solved_issues':solved_issues,'pending_projects':pending_projects,'solved_projects':solved_projects}
     return render(request,'dashboard.html',context)
 
 @login_required

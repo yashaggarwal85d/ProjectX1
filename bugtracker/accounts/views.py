@@ -74,13 +74,27 @@ def logoutUser(request):
 	return redirect('home')
 
 @login_required
-def profile_page(request):
-	profile = request.user.profile
-	answers = request.user.answers.all()
-	issues = request.user.issues.all()
-	projects = request.user.issues.all()
-	issues_member = Issue.objects.filter( members__pk = request.user.pk )
-	projects_member = Project.objects.filter( members__pk = request.user.pk )
+def profile_page(request,pk):
+	user = User.objects.get(pk=pk)
+	profile = user.profile
+	answers = user.answers.all()
+	issues = user.issues.all()
+	projects = user.projects.all()
+	issues_member = Issue.objects.filter( members__pk = user.pk )
+	projects_member = Project.objects.filter( members__pk = user.pk )
+	reputation_points = int(issues_member.count())*10 + int(projects_member.count())*50 + int(projects.count())*20 + int(issues.count())*5 + int(answers.count())*50
+	for project in projects:
+		reputation_points += project.members.count()*50 
+	for project in projects_member:
+		if project.complete == True and project.issues.count() >5:
+			reputation_points += 1000
+	for issue in issues_member:
+		if issue.solve == True:
+			reputation_points += 500
+	for answer in answers:
+		if answer.accepted == True:
+			reputation_points += 1000
+	profile.reputation_points = reputation_points
 	context = {'profile':profile,'answers':answers,'issues':issues,'projects':projects,'projects_member':projects_member,'issues_member':issues_member}
 	return render(request,'accounts/profile.html',context)
 

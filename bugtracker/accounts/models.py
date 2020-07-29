@@ -19,6 +19,7 @@ class Profile(models.Model):
     skills = TaggableManager() 
     country = models.CharField(max_length = 30,null=True)
     location = models.TextField()
+    reputation_points = models.IntegerField(default=0)
 
     def __str__(self):
         return str(self.first_name)
