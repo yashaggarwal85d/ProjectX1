@@ -2,6 +2,7 @@ from django import forms
 from issues import models
 from projects.models import Project
 from django.db.models import Q
+from taggit.forms import TagWidget
 
 class IssueForm(forms.ModelForm):
     class Meta:
@@ -15,7 +16,7 @@ class IssueForm(forms.ModelForm):
             'name':forms.TextInput(attrs={'class':'form-control'}),
             'message':forms.Textarea(attrs={'class':'form-control'}),
             'project':forms.Select(attrs={'class':'form-control'}),
-            'tags':forms.TextInput(attrs={'class':'form-control','data-role':'tagsinput','placeholder':'press enter to add more tags'}),
+            'tags':TagWidget(attrs={'class':'form-control','data-role':'tagsinput','placeholder':'press enter to add more tags'}),
             'solve':forms.CheckboxInput(attrs={}),
             'deadline':forms.DateInput(attrs={'class':'form-control','type':'date'}),
             'priority':forms.Select(attrs={'class':'form-control'}),

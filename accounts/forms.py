@@ -3,7 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
 from .models import Profile
-
+from taggit.forms import TagWidget
 
 class CreateUserForm(UserCreationForm):
 	class Meta:
@@ -25,5 +25,5 @@ class CreateProfileForm(ModelForm):
             'works_at':forms.TextInput(attrs={'class':'form-control'}),
             'country':forms.TextInput(attrs={'class':'form-control'}),
             'location':forms.TextInput(attrs={'class':'form-control'}),
-            'skills':forms.TextInput(attrs={'class':'form-control','data-role':'tagsinput','placeholder':'press enter to add more skills'}),
+            'skills':TagWidget(attrs={'class':'form-control','data-role':'tagsinput','placeholder':'press enter to add more skills'}),
         }

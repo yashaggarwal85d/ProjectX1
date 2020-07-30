@@ -1,5 +1,6 @@
 from django import forms
 from projects import models
+from taggit.forms import TagWidget
 
 class ProjectForm(forms.ModelForm):
     class Meta:
@@ -11,5 +12,5 @@ class ProjectForm(forms.ModelForm):
         widgets = {
             'name':forms.TextInput(attrs={'class':'form-control'}),
             'description':forms.Textarea(attrs={'class':'form-control'}),
-            'tags':forms.TextInput(attrs={'class':'form-control','data-role':'tagsinput','placeholder':'press enter to add more tags'}),
+            'tags':TagWidget(attrs={'class':'form-control','data-role':'tagsinput','placeholder':'press enter to add more tags'}),
         } 
