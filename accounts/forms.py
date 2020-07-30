@@ -16,6 +16,7 @@ class CreateProfileForm(ModelForm):
         fields = '__all__'
         exclude = ['user','reputation_points']
         help_texts = {'skills':''}
+        labels = {'skills':'skills'}
         
         widgets = {
             'first_name':forms.TextInput(attrs={'class':'form-control'}),

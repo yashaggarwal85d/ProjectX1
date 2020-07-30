@@ -53,6 +53,7 @@ def register(request):
 
 def loginUser(request):
 
+	message = ''
 	if request.method == 'POST':
 		username = request.POST.get('username')
 		password =request.POST.get('password')
@@ -63,9 +64,9 @@ def loginUser(request):
 			login(request, user)
 			return redirect('home')
 		else:
-			messages.info(request, 'Username OR password is incorrect')
+			message = 'Username OR password is incorrect'
 
-	context = {}
+	context = {'message':message}
 	return render(request, 'accounts/login.html', context)
 
 @login_required

@@ -10,7 +10,7 @@ from taggit.managers import TaggableManager
 
 class Profile(models.Model):
     user = models.OneToOneField(User,null=True,on_delete=models.CASCADE)
-    profile_pic = models.ImageField(null=True,blank=True,default = 'blank-profile-picture.jpg')
+    profile_pic = models.ImageField(null=True,blank=True,default = 'blank-profile-picture.jpg',upload_to='')
     first_name = models.CharField(max_length = 30,null=True)
     last_name = models.CharField(max_length = 30,null=True)
     phone = models.CharField(max_length = 14,null=True)
