@@ -63,7 +63,7 @@
                 </div>
             </div>
 
-            <div class="col-md-8 col-xl-9">
+            <div class="col-9">
                 <div class="tab-content">
                     
                     <div class=" card tab-pane fade show active" id="answers" role="tabpanel">
@@ -181,7 +181,7 @@
 
                     </div>
 
-                    <div class="tab-pane fade" id="projects" role="tabpanel">
+                    <div class="tab-pane fade " id="projects" role="tabpanel">
                         <div class="row mb-2 mb-xl-3">
                             <div class="col-auto d-none d-sm-block">
                                 <h3><strong>Projects</strong></h3>
@@ -201,8 +201,55 @@
                             </div>
                         </div>
                         {% for project in projects %}
-                        {% include 'projects/_project.html' %}
-
+                            <div class="card">
+                                <div class="card-header">
+                                    <h2 style="font-size: large;" class="card-title"><strong>{{project.name.capitalize}}</strong></h2>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-5 col-md-4">
+                                            <div class="nav flex-column nav-pills nav-secondary" id="v-pills-{{project.pk}}tab" role="tablist"
+                                                aria-orientation="vertical">
+                                                <a class="nav-link active" id="v-pills-{{project.pk}}home-tab" data-toggle="pill"
+                                                    href="#v-pills-{{project.pk}}home" role="tab" aria-controls="v-pills-{{project.pk}}home"
+                                                    aria-selected="true">Home</a>
+                                                <a class="nav-link" id="v-pills-{{project.pk}}tags-tab" data-toggle="pill"
+                                                    href="#v-pills-{{project.pk}}tags" role="tab" aria-controls="v-pills-{{project.pk}}tags"
+                                                    aria-selected="false">tags</a>
+                                                <a class="nav-link" href="{% url 'projects:single' pk=project.pk %}">view</a>
+                                            </div>
+                                        </div>
+                                        <div class="col-7 col-md-8">
+                                            <div class="tab-content" id="v-pills-{{project.pk}}tabContent">
+                                                <div class="tab-pane fade show active" id="v-pills-{{project.pk}}home" role="tabpanel"
+                                                    aria-labelledby="v-pills-{{project.pk}}home-tab">
+                                                    <h5 class="card-title mb-4">{{ project.members.count }}
+                                                        member{{ project.members.count|pluralize }}</h5>
+                                                    {% if project.complete == False %}
+                                                    <span class="text-danger"> <i
+                                                            class="mdi mdi-arrow-bottom-right"></i>{{ project.issues.count }}
+                                                        issue{{ project.issues.count|pluralize }}</span><br>
+                                                    {% else %}
+                                                    <span class="text-success"> <i
+                                                            class="mdi mdi-arrow-bottom-right"></i>{{ project.issues.count }}
+                                                        issue{{ project.issues.count|pluralize }}</span>
+                                                    {% endif %}
+                                                    <p>{{project.description|safe}}</p>
+                                                </div>
+                                                <div class="tab-pane fade" id="v-pills-{{project.pk}}tags" role="tabpanel"
+                                                    aria-labelledby="v-pills-{{project.pk}}tags-tab">
+                                                    <br><br>
+                                                    {% for tag in project.tags.all %}
+                                                    <a href="{% url 'projects:tagged' pk=tag.pk %}"
+                                                        class="badge badge-primary mr-1 my-1">{{tag|safe}}</a>
+                                                    {% endfor %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        
                         {% endfor %}
 
                         {% endif %}
@@ -221,7 +268,54 @@
                         </div>
 
                         {% for project in projects_member %}
-                        {% include 'projects/_project.html' %}
+                        <div class="card">
+                            <div class="card-header">
+                                <h2 style="font-size: large;" class="card-title"><strong>{{project.name.capitalize}}</strong></h2>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-5 col-md-4">
+                                        <div class="nav flex-column nav-pills nav-secondary" id="v-pills-{{project.pk}}tab" role="tablist"
+                                            aria-orientation="vertical">
+                                            <a class="nav-link active" id="v-pills-{{project.pk}}home-tab" data-toggle="pill"
+                                                href="#v-pills-{{project.pk}}home" role="tab" aria-controls="v-pills-{{project.pk}}home"
+                                                aria-selected="true">Home</a>
+                                            <a class="nav-link" id="v-pills-{{project.pk}}tags-tab" data-toggle="pill"
+                                                href="#v-pills-{{project.pk}}tags" role="tab" aria-controls="v-pills-{{project.pk}}tags"
+                                                aria-selected="false">tags</a>
+                                            <a class="nav-link" href="{% url 'projects:single' pk=project.pk %}">view</a>
+                                        </div>
+                                    </div>
+                                    <div class="col-7 col-md-8">
+                                        <div class="tab-content" id="v-pills-{{project.pk}}tabContent">
+                                            <div class="tab-pane fade show active" id="v-pills-{{project.pk}}home" role="tabpanel"
+                                                aria-labelledby="v-pills-{{project.pk}}home-tab">
+                                                <h5 class="card-title mb-4">{{ project.members.count }}
+                                                    member{{ project.members.count|pluralize }}</h5>
+                                                {% if project.complete == False %}
+                                                <span class="text-danger"> <i
+                                                        class="mdi mdi-arrow-bottom-right"></i>{{ project.issues.count }}
+                                                    issue{{ project.issues.count|pluralize }}</span><br>
+                                                {% else %}
+                                                <span class="text-success"> <i
+                                                        class="mdi mdi-arrow-bottom-right"></i>{{ project.issues.count }}
+                                                    issue{{ project.issues.count|pluralize }}</span>
+                                                {% endif %}
+                                                <p>{{project.description|safe}}</p>
+                                            </div>
+                                            <div class="tab-pane fade" id="v-pills-{{project.pk}}tags" role="tabpanel"
+                                                aria-labelledby="v-pills-{{project.pk}}tags-tab">
+                                                <br><br>
+                                                {% for tag in project.tags.all %}
+                                                <a href="{% url 'projects:tagged' pk=tag.pk %}"
+                                                    class="badge badge-primary mr-1 my-1">{{tag|safe}}</a>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         {% endfor %}
 
                         {% endif %}

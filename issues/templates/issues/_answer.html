@@ -1,0 +1,29 @@
+<div class="media">
+    <img src="{{answer.user.profile.profile_pic.url}}" width="36" height="36" class="rounded-circle mr-2"
+        alt="profile_pic">
+    <div class="media-body">
+        <small class="float-right text-navy">{{answer.date_added}}</small>
+        <strong><a href="{% url 'accounts:profile' pk=answer.user.pk %}">{{answer.user.username}}</a></strong> Answered
+        <br />
+
+        <div style="font-size:15px;" class="border text-sm text-muted p-2 mt-1">
+            {{answer.message|safe}}
+        </div>
+
+        {% if user not in answer.likes.all %}
+        <a href="{% url 'issues:like' pk=answer.pk %}" id="like" value="{{answer.id}}"><i class="align-middle mr-2"
+                data-feather="thumbs-up"></i></a>
+        {% else %}
+        <a href="{% url 'issues:like' pk=answer.pk %}" id="like" value="{{answer.id}}"><i class="align-middle mr-2"
+                data-feather="thumbs-down"></i></a>
+        {% endif %}
+
+        <span class="align-middle">{{answer.likes.count}}</span><br><br>
+
+        {% if issue.user == user and issue.solve == False and answer.accepted == False %}
+        <a href="{% url 'issues:accept' pk=answer.pk %}" class="btn btn-success">accept
+            answer</a>
+        {% endif %}
+    </div>
+</div>
+<hr />

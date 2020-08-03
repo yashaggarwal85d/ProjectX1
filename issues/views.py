@@ -11,34 +11,15 @@ from django.views import generic
 from projects.models import Project,ProjectMember
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
-
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import authentication, permissions
 
 User = get_user_model()
 
 class IssueList(SelectRelatedMixin, generic.ListView):
     model = models.Issue
     select_related = ("user", "project")
-
-
-# class UserIssues(generic.ListView):
-#     model = models.Issue
-#     template_name = "issues/user_issue_list.html"
-
-#     def get_queryset(self):
-#         try:
-#             self.issue_user = User.objects.prefetch_related("issues").get(
-#                 username__iexact=self.kwargs.get("username")
-#             )
-#         except User.DoesNotExist:
-#             raise Http404
-#         else:
-#             return self.issue_user.issues.all()
-
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         context["issue_user"] = self.issue_user
-#         return context
-
 
 
 class CreateIssue(LoginRequiredMixin, SelectRelatedMixin,generic.CreateView):
