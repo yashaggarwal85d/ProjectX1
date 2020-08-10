@@ -35,22 +35,6 @@ def register(request):
 	context = {'form':form}
 	return render(request, 'accounts/register.html', context)
 
-# def create_profile(request):
-# 	profile = request.user.profile
-# 	form = CreateProfileForm(instance=profile)
-
-# 	if request.method == 'POST':
-# 		form = CreateProfileForm(request.POST,instance=profile)
-# 		if form.is_valid():
-# 			form.save()
-# 			return redirect('/')
-# 		else:
-# 			context = {'form':form,'message':"error"} 
-# 			return render(request,'accounts/profile_form.html',context)		
-			
-# 	context = {'form':form}
-# 	return render(request,'accounts/profile_form.html',context)
-
 def loginUser(request):
 
 	message = ''
@@ -71,6 +55,8 @@ def loginUser(request):
 
 @login_required
 def logoutUser(request):
+	request.user.profile.online = False
+	request.user.profile.save()
 	logout(request)
 	return redirect('home')
 
@@ -83,6 +69,8 @@ def profile_page(request,pk):
 	projects = user.projects.all()
 	issues_member = Issue.objects.filter( members__pk = user.pk )
 	projects_member = Project.objects.filter( members__pk = user.pk )
+	
+	
 	reputation_points = int(issues_member.count())*10 + int(projects_member.count())*50 + int(projects.count())*20 + int(issues.count())*5 + int(answers.count())*50
 	for project in projects:
 		reputation_points += project.members.count()*50 
@@ -96,6 +84,7 @@ def profile_page(request,pk):
 		if answer.accepted == True:
 			reputation_points += 1000
 	profile.reputation_points = reputation_points
+	profile.save()
 	context = {'profile':profile,'answers':answers,'issues':issues,'projects':projects,'projects_member':projects_member,'issues_member':issues_member}
 	return render(request,'accounts/profile.html',context)
 

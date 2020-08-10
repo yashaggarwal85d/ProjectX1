@@ -14,6 +14,7 @@ urlpatterns = [
     url(r"^accounts/",include('accounts.urls',namespace="accounts")),
     url(r"^projects/", include("projects.urls", namespace="projects")),
     url(r"^issues/",include("issues.urls", namespace="issues")),
+    url(r"^chats/",include("chats.urls", namespace="chats")),
 
 ]
 

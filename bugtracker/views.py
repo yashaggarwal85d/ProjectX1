@@ -12,6 +12,8 @@ from django.contrib.auth.decorators import login_required
 def home(request):
     context = {}
     if request.user.is_authenticated:
+        request.user.profile.online = True
+        request.user.profile.save()
         issues = request.user.issues.all()
         projects = request.user.projects.all()
         pending_issues = request.user.issues.filter(solve=False).count

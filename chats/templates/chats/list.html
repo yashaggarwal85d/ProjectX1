@@ -1,0 +1,263 @@
+{% load static %}
+
+<html>
+
+<head>
+	<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+	<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<link href="{% static 'css/chatbox.css' %}" rel="stylesheet">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" type="text/css"
+		rel="stylesheet">
+
+</head>
+
+<body>
+	<div class="container">
+		<h3 class=" text-center"><br>Messaging</h3><br>
+		<div class="messaging">
+			<div class="inbox_msg">
+				<div class="inbox_people">
+					<div class="headind_srch">
+						<div class="recent_heading">
+							<h4>Recent</h4>
+						</div>
+						<div class="srch_bar">
+							<div class="stylish-input-group">
+								<input type="text" class="search-bar" placeholder="Search">
+								<span class="input-group-addon">
+									<button type="button"> <i class="fa fa-search" aria-hidden="true"></i> </button>
+								</span> </div>
+						</div>
+					</div>
+					<div class="inbox_chat">
+						{% for room in rooms %}
+						<a href="{% url 'chats:list' pk=room.user2.pk %}">
+							{% if room.user1 == user2 or room.user2 == user2 %}
+							<div class="chat_list active_chat">
+							{% else %}
+							<div class="chat_list">
+							{% endif %}	
+							
+								<div class="chat_people">
+									<div class="chat_img"> <img style="border-radius: 50%;"
+											src="{{room.user2.profile.profile_pic.url}}" alt="sunil"> </div>
+									<div class="chat_ib">
+										{% if room.user2 != user %}
+										<h5>{{room.user2.username}}<span class="chat_date">Dec 25</span></h5>
+										{% else %}
+										<h5>{{room.user1.username}}<span class="chat_date">Dec 25</span></h5>
+										{% endif %}
+										{% if room.chats.all.last.deleted == False %}
+										<p>{{room.chats.all.last.message}}</p>
+										{% else %}
+										<p><i>This message was deleted</i></p>
+										{% endif %}
+									</div>
+								</div>
+							</div>
+						</a>
+						{% endfor %}
+					</div>
+				</div>
+				<div class="mesgs">
+					<div class="msg_history">
+						<div id="list-wrapper">
+
+						</div>
+					</div>
+					<div id="form-wrapper">
+						<form id="form">
+							<div class="type_msg">
+								<div class="input_msg_write">
+									<input id="message" name="message" type="text" class="write_msg"
+										placeholder="Type a message" />
+									<button id="submit" class="msg_send_btn" type="submit"><i
+											class="fa fa-paper-plane-o" aria-hidden="true"></i></button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		function getCookie(name) {
+			var cookieValue = null;
+			if (document.cookie && document.cookie !== '') {
+				var cookies = document.cookie.split(';');
+				for (var i = 0; i < cookies.length; i++) {
+					var cookie = cookies[i].trim();
+					// Does this cookie string begin with the name we want?
+					if (cookie.substring(0, name.length + 1) === (name + '=')) {
+						cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+						break;
+					}
+				}
+			}
+			return cookieValue;
+		}
+		var csrftoken = getCookie('csrftoken');
+
+		var activeItem = null
+		var list_snapshot = []
+
+		buildList()
+
+		function buildList() {
+			var wrapper = document.getElementById('list-wrapper')
+			//wrapper.innerHTML = ''
+
+
+
+			var url = 'http://127.0.0.1:8000/chats/chat-list/{{pk}}/'
+
+			fetch(url)
+				.then((resp) => resp.json())
+				.then(function (data) {
+					console.log('Data:', data)
+
+					var list = data
+					for (var i in list) {
+
+
+						try {
+							document.getElementById(`data-row-${i}`).remove()
+						} catch (err) {
+
+						}
+
+
+
+						var message = `<span class="message">${list[i].message}</span>`
+						var date_added = `<span class="date_added">${list[i].date_added}</span>`
+						var user = `<span class="user">${list[i].sender}</span>`
+						
+						if (list[i].deleted == true) {
+							if(list[i].sender=='{{user.id}}')
+							message = `<strike class="message">${list[i].message}</strike>`
+							else
+							message = `<span style="color:white;" class="message"><i>This message was deleted</i></span>`
+						}
+
+						var item1 = `
+                        <div id="data-row-${i}" class="outgoing_msg">
+							<div class="sent_msg">
+								<button class="btn btn-sm btn-outline-dark edit">Edit </button>
+								<button class="btn btn-sm btn-outline-danger delete">Del</button>
+								<p>${message}</p>
+								<span class="time_date">${date_added}</span>
+							</div>
+						</div>
+                    `
+						var item2 = `<div id="data-row-${i}" class="incoming_msg">
+							<div class="incoming_msg_img"> <img style="border-radius:50%" src="{{user2.profile.profile_pic.url}}"
+									alt="sunil"> </div>
+							<div class="received_msg">
+								<div class="received_withd_msg">
+									<p>${message}</p>
+									<span class="time_date">${date_added}</span>
+								</div>
+							</div>
+						</div>
+						`
+						if (list[i].sender == '{{user.id}}')
+							wrapper.innerHTML += item1
+						else
+							wrapper.innerHTML += item2
+
+					}
+
+					if (list_snapshot.length > list.length) {
+						for (var i = list.length; i < list_snapshot.length; i++) {
+							document.getElementById(`data-row-${i}`).remove()
+						}
+					}
+
+					list_snapshot = list
+
+
+					for (var i in list) {
+						var editBtn = document.getElementsByClassName('edit')[i]
+						var deleteBtn = document.getElementsByClassName('delete')[i]
+						var message = document.getElementsByClassName('message')[i]
+
+
+						editBtn.addEventListener('click', (function (item) {
+							return function () {
+								editItem(item)
+							}
+						})(list[i]))
+
+
+						deleteBtn.addEventListener('click', (function (item) {
+							return function () {
+								deleteItem(item)
+							}
+						})(list[i]))
+
+					}
+
+
+				})
+		}
+
+
+		var form = document.getElementById('form-wrapper')
+		form.addEventListener('submit', function (e) {
+			e.preventDefault()
+			console.log('Form submitted')
+			var url = 'http://127.0.0.1:8000/chats/chat-create/{{pk}}/'
+			if (activeItem != null) {
+				var url = `http://127.0.0.1:8000/chats/chat-update/${activeItem.id}/`
+				activeItem = null
+			}
+
+
+
+			var message = document.getElementById('message').value
+			if (message != '') {
+				fetch(url, {
+					method: 'POST',
+					headers: {
+						'Content-type': 'application/json',
+						'X-CSRFToken': csrftoken,
+					},
+					body: JSON.stringify({
+						'message': message
+					})
+				}).then(function (response) {
+					buildList()
+					document.getElementById('form').reset()
+				})
+			}
+
+		})
+
+
+
+
+		function editItem(item) {
+			console.log('Item clicked:', item)
+			activeItem = item
+			document.getElementById('message').value = activeItem.message
+		}
+
+
+		function deleteItem(item) {
+			console.log('Delete clicked')
+			fetch(`http://127.0.0.1:8000/chats/chat-delete/${item.id}/`, {
+				method: 'DELETE',
+				headers: {
+					'Content-type': 'application/json',
+					'X-CSRFToken': csrftoken,
+				}
+			}).then((response) => {
+				buildList()
+			})
+		}
+	</script>
+</body>
+
+</html>
