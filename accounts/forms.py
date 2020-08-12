@@ -26,5 +26,8 @@ class CreateProfileForm(ModelForm):
             'works_at':forms.TextInput(attrs={'class':'form-control'}),
             'country':forms.TextInput(attrs={'class':'form-control'}),
             'location':forms.TextInput(attrs={'class':'form-control'}),
+            'linkedin':forms.URLInput(attrs={'class':'form-control'}),
+            'twitter':forms.URLInput(attrs={'class':'form-control'}),
+            'github':forms.URLInput(attrs={'class':'form-control'}),
             'skills':TagWidget(attrs={'class':'form-control','data-role':'tagsinput','placeholder':'press enter to add more skills'}),
         }

@@ -1,0 +1,591 @@
+{% extends 'chats/chat_base.html' %}
+{% load static %}
+{% block content %}
+<div class="main main-visible" data-mobile-height>
+
+    <!-- Chat -->
+    <div id="chat-1" class="chat dropzone-form-js" data-dz-url="some.php">
+
+        <!-- Chat: body -->
+        <div class="chat-body">
+
+            <!-- Chat: Header -->
+            <div class="chat-header border-bottom py-4 py-lg-6 px-lg-8">
+                <div class="container-xxl">
+
+                    <div class="row align-items-center">
+
+                        <!-- Close chat(mobile) -->
+                        <div class="col-3 d-xl-none">
+                            <ul class="list-inline mb-0">
+                                <li class="list-inline-item">
+                                    <a class="text-muted px-0" href="#" data-chat="open">
+                                        <i class="icon-md fe-chevron-left"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Chat photo -->
+                        <div class="col-6 col-xl-6">
+                            <div class="media text-center text-xl-left">
+                                <div class="avatar avatar-sm d-none d-xl-inline-block mr-5">
+                                    <img src="https://picsum.photos/id/{{issue.pk}}/200/300" class="avatar-img" alt>
+                                </div>
+
+                                <div class="media-body align-self-center text-truncate">
+                                    <h6 class="text-truncate mb-n1">{{issue.name}}</h6>
+                                    <small class="text-muted">Tags </small>
+                                    <small class="text-muted mx-2"> • </small>
+                                    {% for tag in issue.tags.all %}
+                                    <small class="text-muted"> {{tag}} ,</small>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Chat toolbar -->
+                        <div class="col-3 col-xl-6 text-right">
+                            <ul class="nav justify-content-end">
+                                <li class="nav-item list-inline-item d-none d-xl-block mr-5">
+                                    <a class="nav-link text-muted px-3" data-toggle="collapse"
+                                        data-target="#chat-1-search" href="#" title="Search this chat">
+                                        <i class="icon-md fe-search"></i>
+                                    </a>
+                                </li>
+
+                                <li class="nav-item list-inline-item d-none d-xl-block mr-0">
+                                    <a class="nav-link text-muted px-3" href="#"
+                                        data-chat-sidebar-toggle="#chat-1-info" title="Details">
+                                        <i class="icon-md fe-more-vertical"></i>
+                                    </a>
+                                </li>
+
+                                <!-- Mobile nav -->
+                                <li class="nav-item list-inline-item d-block d-xl-none">
+                                    <div class="dropdown">
+                                        <a class="nav-link text-muted px-0" href="#" data-toggle="dropdown"
+                                            aria-haspopup="true" aria-expanded="false">
+                                            <i class="icon-md fe-more-vertical"></i>
+                                        </a>
+                                        <div class="dropdown-menu">
+                                            <a class="dropdown-item d-flex align-items-center"
+                                                data-toggle="collapse" data-target="#chat-1-search" href="#">
+                                                Search <span class="ml-auto pl-5 fe-search"></span>
+                                            </a>
+
+                                            <a class="dropdown-item d-flex align-items-center" href="#"
+                                                data-chat-sidebar-toggle="#chat-1-info">
+                                                {{issue.name}} Info <span
+                                                    class="ml-auto pl-5 fe-more-horizontal"></span>
+                                            </a>
+
+                                        </div>
+                                    </div>
+                                </li>
+                                <!-- Mobile nav -->
+                            </ul>
+                        </div>
+
+                    </div><!-- .row -->
+
+                </div>
+            </div>
+            <!-- Chat: Header -->
+
+            <!-- Chat: Search -->
+            <div class="collapse border-bottom px-lg-8" id="chat-1-search">
+                <div class="container-xxl py-4 py-lg-6">
+
+                    <div class="input-group">
+                        <input type="text" class="form-control form-control-lg" placeholder="Search this chat"
+                            aria-label="Search this chat">
+
+                        <div class="input-group-append">
+                            <button class="btn btn-lg btn-ico btn-secondary btn-minimal" type="submit">
+                                <i class="fe-search"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!-- Chat: Search -->
+
+            <!-- Chat: Content-->
+            <div class="chat-content px-lg-8">
+                <div class="container-xxl py-6 py-lg-10">
+
+                    <div id="list-wrapper">
+
+                    </div>
+                </div>
+
+                <!-- Scroll to end -->
+                <div class="end-of-chat"></div>
+            </div>
+            <!-- Chat: Content -->
+
+            <!-- Chat: DropzoneJS container -->
+            <div class="chat-files hide-scrollbar px-lg-8">
+                <div class="container-xxl">
+                    <div class="dropzone-previews-js form-row py-4"></div>
+                </div>
+            </div>
+            <!-- Chat: DropzoneJS container -->
+
+            <!-- Chat: Footer -->
+            <div class="chat-footer border-top py-4 py-lg-6 px-lg-8">
+                <div class="container-xxl">
+                    <div id="form-wrapper">
+
+                        <form id="form" data-emoji-form>
+                            <div class="form-row align-items-center">
+                                <div class="col">
+                                    <div class="input-group">
+
+                                        <!-- Textarea -->
+                                        <textarea id="message_title" name="message_title"
+                                            class="form-control bg-transparent border-0"
+                                            placeholder="Type your message..." rows="1" data-emoji-input
+                                            data-autosize="true"></textarea>
+
+                                        <!-- Emoji button -->
+                                        <div class="input-group-append">
+                                            <button
+                                                class="btn btn-ico btn-secondary btn-minimal bg-transparent border-0"
+                                                type="button" data-emoji-btn>
+                                                <img src="{% static 'images/smile.svg' %}" data-inject-svg alt>
+                                            </button>
+                                        </div>
+
+                                        <!-- Upload button -->
+                                        <div class="input-group-append">
+                                            <button id="chat-upload-btn-1"
+                                                class="btn btn-ico btn-secondary btn-minimal bg-transparent border-0 dropzone-button-js"
+                                                type="button">
+                                                <img src="{% static 'images/paperclip.svg' %}" data-inject-svg
+                                                    alt>
+                                            </button>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                                <!-- Submit button -->
+                                <div class="col-auto">
+                                    <button id="submit" class="btn btn-ico btn-primary rounded-circle"
+                                        type="submit">
+                                        <span class="fe-send"></span>
+                                    </button>
+                                </div>
+
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- Chat: Footer -->
+        </div>
+        <!-- Chat: body -->
+
+        <!-- Chat Details -->
+        <div id="chat-1-info" class="chat-sidebar">
+            <div class="d-flex h-100 flex-column">
+
+                <!-- Header -->
+                <div class="border-bottom py-4 py-lg-6">
+                    <div class="container-fluid">
+
+                        <ul class="nav justify-content-between align-items-center">
+                            <!-- Close sidebar -->
+                            <li class="nav-item list-inline-item">
+                                <a class="nav-link text-muted px-0" href="#" data-chat-sidebar-close>
+                                    <i class="icon-md fe-chevron-left"></i>
+                                </a>
+                            </li>
+
+                            <!-- Title(mobile) -->
+                            <li class="text-center d-block d-lg-none">
+                                <h6 class="mb-n2">{{issue.name}}</h6>
+                                <small class="text-muted">Chat Details</small>
+                            </li>
+
+                            <!-- Dropdown -->
+                            <li class="nav-item list-inline-item">
+                                <div class="dropdown">
+                                    <a class="nav-link text-muted px-0" href="#" data-toggle="dropdown"
+                                        aria-haspopup="true" aria-expanded="false">
+                                        <i class="icon-md fe-sliders"></i>
+                                    </a>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item d-flex align-items-center" href="{% url 'issues:leave' pk=issue.pk %}">
+                                            Leave
+                                            <span class="ml-auto fe-trash-2"></span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+
+                    </div>
+                </div>
+                <!-- Header -->
+
+                <!-- Body -->
+                <div class="hide-scrollbar flex-fill">
+
+                    <div class="border-bottom text-center py-9 px-10">
+                        <!-- Photo -->
+                        <div class="avatar avatar-xl mx-5 mb-5">
+                            <img class="avatar-img" src="https://picsum.photos/id/{{issue.pk}}/200/300" alt>
+                        </div>
+                        <h5>{{issue.name}}</h5>
+                        <p class="text-muted">{{issue.description|safe}}</p>
+                    </div>
+
+                    <!-- Navs -->
+                    <ul class="nav nav-tabs nav-justified bg-light rounded-0" role="tablist">
+                        <li class="nav-item">
+                            <a href="#chat-id-1-members" class="nav-link active" data-toggle="tab" role="tab" aria-selected="true">Members</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{% url 'issues:single' pk=issue.pk %}" class="nav-link" >View</a>
+                        </li>
+                    </ul>
+                    <!-- Navs -->
+
+                    <div class="tab-content">
+                        <!-- Members -->
+                        <div id="chat-id-1-members" class="tab-pane fade show active">
+                            <ul class="list-group list-group-flush list-group-no-border-first">
+                                <!-- Member -->
+                                <li class="list-group-item py-6">
+                                    <div class="media align-items-center">
+
+                                        
+                                        <div class="avatar avatar-sm mr-5">
+                                            <img class="avatar-img" src="{{issue.user.profile.profile_pic.url}}" alt="{{member.username}}">
+                                        </div>
+                                        
+                                        
+                                        <div class="media-body">
+                                            <h6 class="mb-0">
+                                                <a href="#" class="text-reset">{{issue.user.username}}</a>
+                                            </h6>
+                                            <small class="text-muted">Admin<br>Reputation Points : {{issue.user.profile.reputation_points}}</small>
+                                        </div>
+
+                                        <div class="align-self-center ml-5">
+                                            <div class="dropdown">
+                                                <a href="#" class="btn btn-sm btn-ico btn-link text-muted w-auto" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <i class="fe-more-vertical"></i>
+                                                </a>
+                                                <div class="dropdown-menu">
+                                                    <a class="dropdown-item d-flex align-items-center" href="{% url 'accounts:profile' pk=issue.user.pk %}">
+                                                        View <span class="ml-auto fe-user-x"></span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </li>
+                                
+                                {% for member in issue.members.all %}
+                                <li class="list-group-item py-6">
+                                    <div class="media align-items-center">
+
+                                        
+                                        <div class="avatar avatar-sm mr-5">
+                                            <img class="avatar-img" src="{{member.profile.profile_pic.url}}" alt="{{member.username}}">
+                                        </div>
+                                        
+                                        
+                                        <div class="media-body">
+                                            <h6 class="mb-0">
+                                                <a href="#" class="text-reset">{{member.username}}</a>
+                                            </h6>
+                                            <small class="text-muted">Reputation Points : {{member.profile.reputation_points}}</small>
+                                        </div>
+
+                                        <div class="align-self-center ml-5">
+                                            <div class="dropdown">
+                                                <a href="#" class="btn btn-sm btn-ico btn-link text-muted w-auto" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <i class="fe-more-vertical"></i>
+                                                </a>
+                                                <div class="dropdown-menu">
+                                                    <a class="dropdown-item d-flex align-items-center" href="{% url 'accounts:profile' pk=member.pk %}">
+                                                        View <span class="ml-auto fe-user-x"></span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </li>
+                                {% endfor %}
+                                <!-- Member -->
+
+                            </ul>
+                        </div>
+                        <!-- Members -->
+
+                    </div>
+                </div>
+                
+                <!-- Body -->
+
+            </div>
+        </div>
+    </div>
+    <!-- Chat -->
+
+</div>
+{% endblock %}
+
+{% block script %}
+<script type="text/javascript">
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    var csrftoken = getCookie('csrftoken');
+
+    var activeItem = null
+    var list_snapshot = []
+
+    buildList()
+
+    function buildList() {
+        var wrapper = document.getElementById('list-wrapper')
+        var url = 'http://127.0.0.1:8000/chats/Issuechat-list/{{issue.pk}}/'
+
+        fetch(url)
+            .then((resp) => resp.json())
+            .then(function (data) {
+                console.log('Data:', data)
+
+                var list = data
+                for (var i in list) {
+
+
+                    try {
+                        document.getElementById(`data-row-${i}`).remove()
+                    } catch (err) {
+
+                    }
+
+
+
+                    var message = `<span class="message_title">${list[i].message}</span>`
+                    var date_added = `<span class="date_added">${list[i].date_added}</span>`
+                    var user = `<span class="user">${list[i].sender}</span>`
+                    var delete_button = `Delete`
+
+                    if('{{issue.user.pk}}'==list[i].sender)
+                    {
+                        var admin = 'class="message-content bg-dark text-white"'
+                        var name = '<span class="text-white">{{issue.user.username}}</span>'
+                        var profile_pic_url = '{{issue.user.profile.profile_pic.url}}'
+                    }
+                    else
+                    {
+                        '{% for member in issue.members.all %}'
+                            if ('{{member.pk}}'==list[i].sender)
+                            {
+                                var admin = 'class="message-content bg-light"'
+                                var name = '{{member.username}}'
+                                var profile_pic_url = '{{member.profile.profile_pic.url}}'
+                            }
+                        '{% endfor %}'
+                    }                      
+                    
+
+                    if (list[i].deleted == true) {
+                        delete_button = `Undo`
+                        message =
+                            `<span class="message_title"><i>This message was deleted . <span class="fe-eye-off mr-4"> </span></i></span>`
+                    }
+
+                    if (list[i].sender == '{{user.id}}')
+                        item = `<div id="data-row-${i}" class="message message-right">
+                            <!-- Avatar -->
+                            <div class="avatar avatar-sm ml-4 ml-lg-5 d-none d-lg-block">
+                                <img class="avatar-img" src="{{user.profile.profile_pic.url}}" alt>
+                            </div>
+
+                            <div class="message-body">
+                                <div class="message-row">
+                                    <div class="d-flex align-items-center justify-content-end">
+
+                                        <div class="dropdown">
+                                            <a class="text-muted opacity-60 mr-3" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class="fe-more-vertical"></i>
+                                            </a>
+
+                                            <div class="dropdown-menu">
+                                                <a class="dropdown-item d-flex align-items-center edit" href="#">
+                                                    Edit <span class="ml-auto fe-edit-3"></span>
+                                                </a>
+                                                <a class="dropdown-item d-flex align-items-center delete" href="#">
+                                                    ${delete_button} <span class="ml-auto fe-trash-2"></span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="message-content bg-primary text-white">
+                                            <div>${message}</div>
+
+                                            <div class="mt-1">
+                                                <small class="opacity-65">${date_added}</small>
+                                            </div>
+                                        </div>
+                                        <!-- Message: content -->
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `
+                    else
+                        item = `<div id="data-row-${i}" class="message">
+                            <!-- Avatar -->
+                            <a class="avatar avatar-sm mr-4 mr-lg-5" href="#" data-chat-sidebar-toggle="#chat-1-user-profile">
+                                <img class="avatar-img" src="${profile_pic_url}" alt>
+                            </a>
+
+                            <!-- Message: body -->
+                            <div class="message-body">
+
+                                <div class="message-row">
+                                    <div class="d-flex align-items-center">
+                                        <a class="edit"></span></a>
+                                        <a class="delete"></a>
+                                        
+
+                                        <!-- Message: content -->
+                                        <div ${admin} >
+                                            <h6 class="mb-2">${name}</h6>
+                                            <div>${message}</div>
+
+                                            <div class="mt-1">
+                                                <small class="opacity-65">${date_added}</small>
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                                <!-- Message: row -->
+
+                            </div>
+                            <!-- Message: Body -->
+                        </div>
+                        `
+
+                    wrapper.innerHTML += item
+                }
+
+                if (list_snapshot.length > list.length) {
+                    for (var i = list.length; i < list_snapshot.length; i++) {
+                        document.getElementById(`data-row-${i}`).remove()
+                    }
+                }
+
+                list_snapshot = list
+
+
+                for (var i in list) {
+                    var editBtn = document.getElementsByClassName('edit')[i]
+                    var deleteBtn = document.getElementsByClassName('delete')[i]
+                    var message = document.getElementsByClassName('message_title')[i]
+
+
+                    editBtn.addEventListener('click', (function (item) {
+                        return function () {
+                            editItem(item)
+                        }
+                    })(list[i]))
+
+
+                    deleteBtn.addEventListener('click', (function (item) {
+                        return function () {
+                            deleteItem(item)
+                        }
+                    })(list[i]))
+
+                }
+
+
+            })
+    }
+
+
+    var form = document.getElementById('form-wrapper')
+    form.addEventListener('submit', function (e) {
+        e.preventDefault()
+        console.log('Form submitted')
+        var url = 'http://127.0.0.1:8000/chats/Issuechat-create/{{issue.pk}}/'
+        if (activeItem != null) {
+            var url = `http://127.0.0.1:8000/chats/chat-update/${activeItem.id}/`
+            activeItem = null
+        }
+
+
+
+        var message = document.getElementById('message_title').value
+        if (message != '') {
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-type': 'application/json',
+                    'X-CSRFToken': csrftoken,
+                },
+                body: JSON.stringify({
+                    'message': message
+                })
+            }).then(function (response) {
+                buildList()
+                document.getElementById('form').reset()
+            })
+        }
+
+    })
+
+
+
+
+    function editItem(item) {
+        console.log('Item clicked:', item)
+        activeItem = item
+        document.getElementById('message_title').value = activeItem.message
+    }
+
+
+    function deleteItem(item) {
+        console.log('Delete clicked')
+        fetch(`http://127.0.0.1:8000/chats/chat-delete/${item.id}/`, {
+            method: 'DELETE',
+            headers: {
+                'Content-type': 'application/json',
+                'X-CSRFToken': csrftoken,
+            }
+        }).then((response) => {
+            buildList()
+        })
+    }
+</script>
+{% endblock %}

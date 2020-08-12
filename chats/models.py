@@ -2,7 +2,8 @@ from django.db import models
 from django.urls import reverse
 from django.conf import settings
 from django.contrib.auth import get_user_model
-
+from projects.models import *
+from issues.models import *
 User=get_user_model()
 
 class ChatRoom(models.Model):
@@ -16,6 +17,8 @@ class Chat(models.Model):
     message = models.TextField(null=True,blank=True)
     date_added = models.DateTimeField(auto_now_add=True)
     deleted = models.BooleanField(default=False, blank=True, null=True)
-      
+    project = models.ForeignKey(Project,null=True,blank=True,on_delete=models.CASCADE,related_name="chats")
+    issue = models.ForeignKey(Issue,null=True,blank=True,on_delete=models.CASCADE,related_name="chats")
+
     def __str__(self):
         return str(self.user)

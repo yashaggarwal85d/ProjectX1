@@ -20,6 +20,9 @@ class Profile(models.Model):
     country = models.CharField(max_length = 30,null=True)
     location = models.TextField()
     reputation_points = models.IntegerField(default=0)
+    linkedin = models.URLField(blank=True,null=True)
+    github = models.URLField(blank=True,null=True)
+    twitter = models.URLField(blank=True,null=True)
     online = models.BooleanField(default=False)
 
     def __str__(self):

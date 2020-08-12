@@ -19,10 +19,7 @@ def all(request):
 	issues = Issue.objects.filter( Q(members__pk = request.user.pk )|Q(user=request.user))
 	projects = Project.objects.filter( Q(members__pk = request.user.pk )|Q(user=request.user))
 	rooms = ChatRoom.objects.filter(Q(user1=user1)|Q(user2=user1))
-	CHAT=False
-	PROJECT=False
-	ISSUE=False
-	context = {'ISSUE':ISSUE,'PROJECT':PROJECT,'CHAT':CHAT,'issues':issues,'projects':projects,'rooms':rooms,'all_users':all_users}
+	context = {'user':user1,'issues':issues,'projects':projects,'rooms':rooms,'all_users':all_users}
 	return render(request, 'chats/chat_base.html',context)
 
 
@@ -31,37 +28,39 @@ def list(request,pk):
 	user1 = request.user
 	user2 = User.objects.get(pk=pk)
 	all_users = User.objects.all
-	issues = Issue.objects.filter( Q(members__pk = request.user.pk )|Q(user=request.user))
-	projects = Project.objects.filter( Q(members__pk = request.user.pk )|Q(user=request.user))
+	issues = Issue.objects.filter(members__pk = request.user.pk)
+	projects = Project.objects.filter(members__pk = request.user.pk)
+	my_issues = Issue.objects.filter(user = request.user)
+	my_projects = Project.objects.filter(user = request.user)
 	rooms = ChatRoom.objects.filter(Q(user1=user1)|Q(user2=user1))
-	context = {'issues':issues,'projects':projects,'pk':pk,'rooms':rooms,'user2':user2,'all_users':all_users}
-	return render(request, 'chats/chat_base.html',context)
+	context = {'my_issues':my_issues,'my_projects':my_projects,'issues':issues,'projects':projects,'pk':pk,'rooms':rooms,'user2':user2,'all_users':all_users}
+	return render(request, 'chats/chats.html',context)
 
+@login_required
 def ProjectChat(request,pk):
 	user1 = request.user
 	all_users = User.objects.all
 	project = Project.objects.get(pk=pk)
-	issues = Issue.objects.filter( Q(members__pk = request.user.pk )|Q(user=request.user))
-	projects = Project.objects.filter( Q(members__pk = request.user.pk )|Q(user=request.user))
+	issues = Issue.objects.filter(members__pk = request.user.pk)
+	projects = Project.objects.filter(members__pk = request.user.pk)
+	my_issues = Issue.objects.filter(user = request.user)
+	my_projects = Project.objects.filter(user = request.user)
 	rooms = ChatRoom.objects.filter(Q(user1=user1)|Q(user2=user1))
-	CHAT=False
-	PROJECT=True
-	ISSUE=False
-	context = {'ISSUE':ISSUE,'PROJECT':PROJECT,'CHAT':CHAT,'project':project,'issues':issues,'projects':projects,'rooms':rooms,'all_users':all_users}
-	return render(request, 'chats/chat_base.html',context)
+	context = {'my_issues':my_issues,'my_projects':my_projects,'project':project,'issues':issues,'projects':projects,'rooms':rooms,'all_users':all_users}
+	return render(request, 'chats/project_chats.html',context)
 
+@login_required
 def IssueChat(request,pk):
 	user1 = request.user
 	all_users = User.objects.all
 	issue = Issue.objects.get(pk=pk)
-	issues = Issue.objects.filter( Q(members__pk = request.user.pk )|Q(user=request.user))
-	projects = Project.objects.filter( Q(members__pk = request.user.pk )|Q(user=request.user))
+	issues = Issue.objects.filter(members__pk = request.user.pk)
+	projects = Project.objects.filter(members__pk = request.user.pk)
+	my_issues = Issue.objects.filter(user = request.user)
+	my_projects = Project.objects.filter(user = request.user)
 	rooms = ChatRoom.objects.filter(Q(user1=user1)|Q(user2=user1))
-	CHAT=False
-	PROJECT=False
-	ISSUE=True
-	context = {'issue':issue,'issues':issues,'projects':projects,'rooms':rooms,'all_users':all_users}
-	return render(request, 'chats/chat_base.html',context)
+	context = {'my_issues':my_issues,'my_projects':my_projects,'issue':issue,'issues':issues,'projects':projects,'rooms':rooms,'all_users':all_users}
+	return render(request, 'chats/issue_chats.html',context)
 
 
 @login_required
@@ -78,6 +77,22 @@ def chatList(request,pk):
 			chatroom = ChatRoom.objects.create(user1=user1,user2=user2)
 
 	chats = Chat.objects.filter(chatroom=chatroom).order_by('id')
+	serializer = ChatSerializer(chats, many=True)
+	return Response(serializer.data)
+
+@login_required
+@api_view(['GET'])
+def ProjectchatList(request,pk):
+	project = Project.objects.get(pk=pk)
+	chats = Chat.objects.filter(project=project).order_by('id')
+	serializer = ChatSerializer(chats, many=True)
+	return Response(serializer.data)
+
+@login_required
+@api_view(['GET'])
+def IssuechatList(request,pk):
+	issue = Issue.objects.get(pk=pk)
+	chats = Chat.objects.filter(issue=issue).order_by('id')
 	serializer = ChatSerializer(chats, many=True)
 	return Response(serializer.data)
 
@@ -102,6 +117,31 @@ def chatCreate(request,pk):
 	serializer = ChatSerializer(chats, many=True)
 	return Response(serializer.data)
 
+
+@login_required
+@api_view(['POST','GET'])
+def ProjectchatCreate(request,pk):
+	project = Project.objects.get(pk=pk)
+	serializer = ChatSerializer(data=request.data)
+	if serializer.is_valid():
+		serializer.save(sender=request.user,project=project)
+	
+	chats = Chat.objects.filter(project=project).order_by('id')
+	serializer = ChatSerializer(chats, many=True)
+	return Response(serializer.data)
+
+@login_required
+@api_view(['POST','GET'])
+def IssuechatCreate(request,pk):
+	issue = Issue.objects.get(pk=pk)
+	serializer = ChatSerializer(data=request.data)
+	if serializer.is_valid():
+		serializer.save(sender=request.user,issue=issue)
+	
+	chats = Chat.objects.filter(issue=issue).order_by('id')
+	serializer = ChatSerializer(chats, many=True)
+	return Response(serializer.data)
+
 @login_required
 @api_view(['POST'])
 def chatUpdate(request, pk):
@@ -112,7 +152,6 @@ def chatUpdate(request, pk):
 		serializer.save()
 
 	return Response(serializer.data)
-
 
 @login_required
 @api_view(['DELETE'])

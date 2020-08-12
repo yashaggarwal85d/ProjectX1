@@ -142,22 +142,23 @@ def IssueDetail(request,pk):
         form = forms.AnswerForm(request.POST,instance=answer)
         if form.is_valid():
             form.save()
+            return redirect('home')
         else:
             message = "Error, please check the details again"
 
     context = {'issue':issue,'form':form,'message':message,'accepted_answers':accepted_answers,'potential_answers':potential_answers}
     return render(request,'issues/issue_detail.html',context)
 
-@login_required
-def like(request,pk):
-    answer = models.Answer.objects.get(pk=pk)
+# @login_required
+# def like(request,pk):
+#     answer = models.Answer.objects.get(pk=pk)
     
-    if answer.likes.filter(id=request.user.id).exists():
-        answer.likes.remove(request.user)
-    else:
-        answer.likes.add(request.user)
+#     if answer.likes.filter(id=request.user.id).exists():
+#         answer.likes.remove(request.user)
+#     else:
+#         answer.likes.add(request.user)
     
-    return HttpResponseRedirect(reverse('issues:single',args=[str(answer.issue.pk)]))
+#     return HttpResponseRedirect(reverse('issues:single',args=[str(answer.issue.pk)]))
 
 @login_required
 def accept_answer(request,pk):
@@ -173,3 +174,15 @@ def accept_answer(request,pk):
         return HttpResponseRedirect(reverse('issues:single',args=[str(issue.pk)]))
     else:
         return render(request,'issues/answer_confirm.html',{'answer':answer,'issue':issue})
+
+
+@login_required
+def add_like(request,pk):
+    answer = models.Answer.objects.get(id=pk)
+    if answer.likes.filter(id=request.user.id).exists():
+        answer.likes.remove(request.user)
+    else:
+        answer.likes.add(request.user)
+    answer.save()
+
+    return HttpResponse(answer.likes.count())

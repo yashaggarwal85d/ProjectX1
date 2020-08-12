@@ -49,6 +49,12 @@
 								{% endif %}
 								{% endif %}
 
+								{% if user in project.members.all or user == project.user %}
+								<br><br>
+								<a class="btn btn-primary btn-sm" href="{% url 'chats:project' pk=project.pk %}"><span
+										data-feather="message-square"></span>Discuss</a>
+								{% endif %}
+
 
 
 							</div>
@@ -68,23 +74,22 @@
 							<ul class="list-unstyled mb-0">
 								<li class="mb-1"><span data-feather="file-plus" class="feather-sm mr-1"></span> Created
 									At
-									<a href="#"> {{project.created_at}}</a></li>
+									<strong> {{project.created_at}}</strong></li>
 								<li class="mb-1"><span data-feather="user" class="feather-sm mr-1"></span> Created By <a
-										href="#"> {{project.user.username}}</a></li>
+										href="{% url 'accounts:profile' pk=project.user.pk %}">
+										{{project.user.username}}</a></li>
 
 								<li class="mb-1"><span data-feather="users" class="feather-sm mr-1"></span> Project
-									Members <a href="#"> {{project.members.count}}</a></li>
+									Members <strong> {{project.members.count}}</strong></li>
 								<li class="mb-1"><span data-feather="alert-triangle" class="feather-sm mr-1"></span>
-									Total issues <a href="#"> {{project.issues.count}}</a></li>
-								<li class="mb-1"><span data-feather="user" class="feather-sm mr-1"></span> Created By
-									<a href="#"> {{project.user.username}}</a></li>
+									Total issues <strong> {{project.issues.count}}</strong></li>
 							</ul>
 						</div>
 						<hr class="my-0" />
 					</div>
 				</div>
 
-				
+
 				<div class="col-md-8 col-xl-9">
 					<div class="card">
 						<div class="card-header">

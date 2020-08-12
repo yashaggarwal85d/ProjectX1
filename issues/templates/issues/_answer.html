@@ -3,23 +3,49 @@
         alt="profile_pic">
     <div class="media-body">
         <small class="float-right text-navy">{{answer.date_added}}</small>
-        <strong><a href="{% url 'accounts:profile' pk=answer.user.pk %}">{{answer.user.username}}</a></strong> Answered
+        <strong><a href="{% url 'accounts:profile' pk=answer.user.pk %}">{{answer.user.username}}</a></strong> Answered in <strong><a href="{% url 'issues:single' pk=answer.issue.pk %}">{{answer.issue.name}}</a></strong>
         <br />
 
         <div style="font-size:15px;" class="border text-sm text-muted p-2 mt-1">
             {{answer.message|safe}}
         </div>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <style>
+            .btn-secondary {
+                background: #ed2553;
+                border-radius: 3px;
+                box-shadow: 0 10px 20px -8px rgb(240, 75, 113);
+                padding: 5px 9px;
+                font-size: 18px;
+                border: none;
+                outline: none;
+                color: #ffffff;
+                text-decoration: none;
+                -webkit-transition: 0.3s ease;
+                transition: 0.3s ease;
+            }
 
-        {% if user not in answer.likes.all %}
-        <a href="{% url 'issues:like' pk=answer.pk %}" id="like" value="{{answer.id}}"><i class="align-middle mr-2"
-                data-feather="thumbs-up"></i></a>
+            .fa-thumbs-down {
+                margin-right: 10px;
+            }
+
+            .fa-thumbs-up {
+                margin-right: 10px;
+            }
+        </style>
+        
+        {% if user in answer.likes.all %}
+        <button onclick="myFunction(this)" class="btn-secondary likes-button" type="button"
+            data-ansid="{{answer.pk}}"><i class="fa fa-thumbs-down"></i><strong
+                id="like_count_{{answer.pk}}">{{ answer.likes.count }}</strong>
+        </button>
         {% else %}
-        <a href="{% url 'issues:like' pk=answer.pk %}" id="like" value="{{answer.id}}"><i class="align-middle mr-2"
-                data-feather="thumbs-down"></i></a>
+        <button onclick="myFunction(this)" class="btn-secondary likes-button" type="button"
+            data-ansid="{{answer.pk}}"><i class="fa fa-thumbs-up"></i><strong
+                id="like_count_{{answer.pk}}">{{ answer.likes.count }}</strong>
+        </button>
         {% endif %}
-
-        <span class="align-middle">{{answer.likes.count}}</span><br><br>
-
+        
         {% if issue.user == user and issue.solve == False and answer.accepted == False %}
         <a href="{% url 'issues:accept' pk=answer.pk %}" class="btn btn-success">accept
             answer</a>

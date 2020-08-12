@@ -75,8 +75,8 @@
                 </li>
 
                 <li class="sidebar-item">
-                    <a class="sidebar-link" href="#">
-                        <i class="align-middle" data-feather="list"></i> <span class="align-middle">Messanger</span>
+                    <a class="sidebar-link" href="{% url 'chats:all' %}">
+                        <i class="align-middle" data-feather="message-square"></i> <span class="align-middle">Messenger</span>
                     </a>
                 </li>
 
@@ -86,13 +86,13 @@
 
                 <li class="sidebar-item">
                     <a class="sidebar-link" href="#">
-                        <i class="align-middle" data-feather="bar-chart-2"></i> <span class="align-middle">Charts</span>
+                        <i class="align-middle" data-feather="code"></i> <span class="align-middle">Project X2</span>
                     </a>
                 </li>
 
                 <li class="sidebar-item">
                     <a class="sidebar-link" href="#">
-                        <i class="align-middle" data-feather="map"></i> <span class="align-middle">Maps</span>
+                        <i class="align-middle" data-feather="code"></i> <span class="align-middle">Project X3</span>
                     </a>
                 </li>
                 </ul>
@@ -175,15 +175,6 @@
         {
         alert('{{message}}')
         }
-    </script>
-    <script>
-        $(function () {
-            $('#datetimepicker-dashboard').datetimepicker({
-                inline: true,
-                sideBySide: false,
-                format: 'L'
-            });
-        });
     </script>
     {% block script %}
 

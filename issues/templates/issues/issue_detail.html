@@ -1,5 +1,5 @@
 {% extends "issues/issue_base.html" %}
-
+{% load static %}
 {% block issue_content %}
 <div>
     <main class="content">
@@ -50,8 +50,11 @@
                                 <td><a href="{% url 'issues:leave' pk=issue.pk %}"></span>quit</a></td>
                                 {% endif %}
                                 {% endif %}
-
-
+                                {% if user in issue.members.all or user == issue.user %}
+                                <br><br>
+                                <a class="btn btn-primary btn-sm" href="{% url 'chats:issue' pk=issue.pk %}"><span
+                                        data-feather="message-square"></span>Discuss</a>
+                                {% endif %}
 
                             </div>
                         </div>
@@ -69,17 +72,19 @@
                             <h5 class="h6 card-title">About</h5>
                             <ul class="list-unstyled mb-0">
                                 <li class="mb-1"><span data-feather="file-plus" class="feather-sm mr-1"></span> Created
-                                    At <a href="#"> {{issue.created_at}}</a></li>
+                                    At <strong>{{issue.created_at}}</strong></li>
                                 <li class="mb-1"><span data-feather="user" class="feather-sm mr-1"></span> Created By <a
-                                    href="{% url 'accounts:profile' pk=issue.user.pk %}"> {{issue.user.username}}</a></li>
+                                        href="{% url 'accounts:profile' pk=issue.user.pk %}">
+                                        {{issue.user.username}}</a></li>
                                 <li class="mb-1"><span data-feather="users" class="feather-sm mr-1"></span> People
-                                    working on this <a href="#"> {{issue.members.count}}</a></li>
+                                    working on this <strong>{{issue.members.count}}</strong></li>
                                 <li class="mb-1"><span data-feather="book" class="feather-sm mr-1"></span> Project <a
-                                        href="#"> {{issue.project.name}}</a></li>
-                                <li class="mb-1"><span data-feather="list" class="feather-sm mr-1"></span> Priority <a
-                                        href="#"> {{issue.priority}}</a></li>
+                                        href="{% url 'projects:single' pk=issue.project.pk %}">
+                                        {{issue.project.name}}</a></li>
+                                <li class="mb-1"><span data-feather="list" class="feather-sm mr-1"></span> Priority
+                                    <strong> {{issue.priority}}</strong></li>
                                 <li class="mb-1"><span data-feather="alert-circle" class="feather-sm mr-1"></span>
-                                    Deadline <a href="#"> {{issue.deadline}}</a></li>
+                                    Deadline <strong> {{issue.deadline}}</strong></li>
 
 
                             </ul>
@@ -105,7 +110,7 @@
                             <div>
                                 <h1>No Answers yet</h1>
                             </div>
-                            <hr/>
+                            <hr />
                             {% else %}
 
                             {% if accepted_answers %}
@@ -150,4 +155,7 @@
 </div>
 
 
+{% endblock %}
+{% block script %}
+<script type="text/javascript" src="{% static 'js/like.js' %}"></script>
 {% endblock %}

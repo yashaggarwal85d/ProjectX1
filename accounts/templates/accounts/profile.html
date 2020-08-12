@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
-
+{% load static %}
 <main class="content">
     <div class="container-fluid p-0">
 
@@ -20,7 +20,7 @@
                         <h5 class="card-title mb-0"><br>Reputation points : {{profile.reputation_points}}</h5><br>
                         <div>
                             {% if user != profile.user %}
-                            <a class="btn btn-primary btn-sm" href="#"><span data-feather="message-square"></span>
+                            <a class="btn btn-primary btn-sm" href="{% url 'chats:list' pk=profile.user.pk %}"><span data-feather="message-square"></span>
                                 Message</a>
                             {% endif %}
                         </div>
@@ -50,13 +50,11 @@
                     <div class="card-body">
                         <h5 class="h6 card-title">About</h5>
                         <ul class="list-unstyled mb-0">
-                            <li class="mb-1"><span data-feather="home" class="feather-sm mr-1"></span> Lives in <a
-                                    href="#">{{profile.location.capitalize}}</a></li>
+                            <li class="mb-1"><span data-feather="home" class="feather-sm mr-1"></span> Lives in <strong>{{profile.location.capitalize}}</strong></li>
 
                             <li class="mb-1"><span data-feather="briefcase" class="feather-sm mr-1"></span> Works or
-                                study at <a href="#">{{profile.works_at.capitalize}}</a></li>
-                            <li class="mb-1"><span data-feather="map-pin" class="feather-sm mr-1"></span> From <a
-                                    href="#">{{profile.country}}</a></li>
+                                study at <strong>{{profile.works_at.capitalize}}</strong></li>
+                            <li class="mb-1"><span data-feather="map-pin" class="feather-sm mr-1"></span> From <strong>{{profile.country}}</strong></li>
                         </ul>
                     </div>
                     <hr class="my-0" />
@@ -80,22 +78,7 @@
                         <div class="card-body h-100">
 
                             {% for answer in answers %}
-                            <div class="media">
-                                <div class="media-body">
-                                    <small class="float-right text-navy">{{answer.date_added}}</small>
-                                    <strong>Posted</strong> Answer in <strong><a
-                                            href="{% url 'issues:single' pk=answer.issue.pk %}">{{answer.issue.name}}</a></strong><br />
-
-                                    <div style="font-size:15px;" class="border text-sm text-muted p-2 mt-1">
-                                        {{answer.message|safe}}
-                                    </div>
-
-                                    <a href="{% url 'issues:like' pk=answer.pk %}"><i class="align-middle mr-2"
-                                            data-feather="thumbs-up"></i></a><span
-                                        class="align-middle">{{answer.likes.count}}</span><br><br>
-
-                                </div>
-                            </div>
+                            {% include 'issues/_answer.html' %}
                             {% endfor %}
                             <hr />
                         </div>
@@ -328,4 +311,7 @@
 </main>
 
 
+{% endblock %}
+{% block script %}
+<script type="text/javascript" src="{% static 'js/like.js' %}"></script>
 {% endblock %}
