@@ -372,7 +372,7 @@
 
     function buildList() {
         var wrapper = document.getElementById('list-wrapper')
-        var url = 'http://127.0.0.1:8000/chats/Projectchat-list/{{project.pk}}/'
+        var url = 'https://project-x1-0.herokuapp.com/chats/Projectchat-list/{{project.pk}}/'
 
         fetch(url)
             .then((resp) => resp.json())
@@ -538,9 +538,9 @@
     form.addEventListener('submit', function (e) {
         e.preventDefault()
         console.log('Form submitted')
-        var url = 'http://127.0.0.1:8000/chats/Projectchat-create/{{project.pk}}/'
+        var url = 'https://project-x1-0.herokuapp.com/chats/Projectchat-create/{{project.pk}}/'
         if (activeItem != null) {
-            var url = `http://127.0.0.1:8000/chats/chat-update/${activeItem.id}/`
+            var url = `https://project-x1-0.herokuapp.com/chats/chat-update/${activeItem.id}/`
             activeItem = null
         }
 
@@ -577,7 +577,7 @@
 
     function deleteItem(item) {
         console.log('Delete clicked')
-        fetch(`http://127.0.0.1:8000/chats/chat-delete/${item.id}/`, {
+        fetch(`https://project-x1-0.herokuapp.com/chats/chat-delete/${item.id}/`, {
             method: 'DELETE',
             headers: {
                 'Content-type': 'application/json',
