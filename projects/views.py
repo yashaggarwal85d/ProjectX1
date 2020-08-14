@@ -11,6 +11,12 @@ from . import models
 from . import forms
 from taggit.models import Tag
 from django.contrib.auth.decorators import login_required
+from rest_framework.views import APIView
+from rest_framework import authentication, permissions
+from django.http import JsonResponse
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from .serializers import *
 
 # Create your views here.
 
@@ -115,3 +121,13 @@ def CompleteProject(request,pk):
     project.complete = True
     project.save()
     return redirect('projects:all')
+
+
+#API
+
+@login_required
+@api_view(['GET'])
+def projects_list_api(request):
+    projects = models.Project.objects.all().order_by('id')
+    serializer = ProjectSerializer(projects, many=True)
+    return Response(serializer.data)

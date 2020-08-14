@@ -12,8 +12,12 @@ from projects.models import Project,ProjectMember
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from rest_framework.views import APIView
-from rest_framework.response import Response
 from rest_framework import authentication, permissions
+from django.http import JsonResponse
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from .serializers import *
+
 
 User = get_user_model()
 
@@ -149,17 +153,6 @@ def IssueDetail(request,pk):
     context = {'issue':issue,'form':form,'message':message,'accepted_answers':accepted_answers,'potential_answers':potential_answers}
     return render(request,'issues/issue_detail.html',context)
 
-# @login_required
-# def like(request,pk):
-#     answer = models.Answer.objects.get(pk=pk)
-    
-#     if answer.likes.filter(id=request.user.id).exists():
-#         answer.likes.remove(request.user)
-#     else:
-#         answer.likes.add(request.user)
-    
-#     return HttpResponseRedirect(reverse('issues:single',args=[str(answer.issue.pk)]))
-
 @login_required
 def accept_answer(request,pk):
 
@@ -186,3 +179,22 @@ def add_like(request,pk):
     answer.save()
 
     return HttpResponse(answer.likes.count())
+
+
+
+#API
+
+@login_required
+@api_view(['GET'])
+def issues_list_api(request):
+    issues = Issue.objects.all().order_by('id')
+    serializer = IssueSerializer(issues, many=True)
+    return Response(serializer.data)
+
+
+@login_required
+@api_view(['GET'])
+def answers_list_api(request):
+    answers = Answer.objects.all().order_by('id')
+    serializer = AnswerSerializer(answers, many=True)
+    return Response(serializer.data)

@@ -14,4 +14,9 @@ urlpatterns = [
     url(r"update/(?P<pk>\d+)/$",views.UpdateIssue,name="update"),  
     url(r'add_like/(?P<pk>\d+)/$', views.add_like, name='add_like'),
     url(r"accept/(?P<pk>\d+)/$", views.accept_answer, name="accept"),
+    
+    url(r"issues_list_api/$", views.issues_list_api, name="issues_list_api"),
+    url(r"answers_list_api/$", views.answers_list_api, name="answers_list_api"),
+    
+
 ]

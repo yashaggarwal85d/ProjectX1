@@ -12,4 +12,8 @@ urlpatterns = [
     url(r"delete/(?P<pk>\d+)/$",views.DeleteProject.as_view(),name="delete"),
     url(r"tagged/(?P<pk>\d+)/$",views.tagged,name="tagged"),
     url(r"complete/(?P<pk>\d+)/$",views.CompleteProject,name="complete"),
+
+    url(r"projects_list_api/$", views.projects_list_api, name="projects_list_api"),
+    
+
 ]
