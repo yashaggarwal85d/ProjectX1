@@ -17,6 +17,7 @@ class Project(models.Model):
     tags = TaggableManager()
     complete = models.BooleanField(default = False)
     members = models.ManyToManyField(User,through="ProjectMember")
+    projectJoinPermission = models.BooleanField(default=True)
 
     def __str__(self):
         return '%s - %s' % (self.name,self.user.username)

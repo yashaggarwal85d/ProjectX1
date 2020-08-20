@@ -21,11 +21,19 @@
 
 								{% if project.complete == False %}
 								{% if project.user == user %}
-								<span class="badge badge-danger"><a
+								<span class="badge badge-danger"><a style="color:white;"
 										href="{% url 'projects:complete' pk=project.pk %}">Mark
 										Completed</a></span>
-								<span class="badge badge-warning"><a href="{% url 'projects:delete' pk=project.pk %}">
+								<span class="badge badge-warning"><a style="color:white;" href="{% url 'projects:delete' pk=project.pk %}">
 										Delete</a></span>
+								{% if project.projectJoinPermission == True %}
+								<span class="badge badge-success"><a style="color:white;" href="{% url 'projects:joinper' pk=project.pk %}">
+											Open to all</a></span>
+								{% else %}
+								<span class="badge badge-primary"><a style="color:white;" href="{% url 'projects:joinper' pk=project.pk %}">
+									Joined Only</a></span>
+								{% endif %}
+
 								{% else %}
 								<span class="badge badge-warning">Pending</span>
 								{% endif %}
@@ -37,15 +45,19 @@
 								{% if project.complete == False and project.user != user %}
 
 								{% if user in project.members.all %}
-								<a href="{% url 'projects:leave' pk=project.pk %}"></span>Leave</a>
+								<span class="badge badge-danger"><a style="color:white;" href="{% url 'projects:leave' pk=project.pk %}">Leave</a></span>
 								{% else %}
-								<a href="{% url 'projects:join' pk=project.pk  %}"></span>Join</a>
+								{% if project.projectJoinPermission == True %}
+								<span class="badge badge-success"><a style="color:white;" href="{% url 'projects:join' pk=project.pk  %}">Join</a></span>
+								{% else %}
+								<span class="badge badge-secondary">Members only</span>
+								{% endif %}
 								{% endif %}
 
 								{% else %}
 
 								{% if user in project.members.all and user != project.user %}
-								<td><a href="{% url 'projects:leave' pk=project.pk %}"></span>leave</a></td>
+								<td><span class="badge badge-danger"><a style="color:white;" href="{% url 'projects:leave' pk=project.pk %}">leave</a></span></td>
 								{% endif %}
 								{% endif %}
 

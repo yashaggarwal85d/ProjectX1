@@ -131,3 +131,12 @@ def projects_list_api(request):
     projects = models.Project.objects.all().order_by('id')
     serializer = ProjectSerializer(projects, many=True)
     return Response(serializer.data)
+
+def CloseOrOpenJoin(request,pk):
+    project = models.Project.objects.get(id=pk)
+    if project.projectJoinPermission == True:
+        project.projectJoinPermission = False
+    else:
+        project.projectJoinPermission = True
+    project.save()
+    return redirect('projects:single',pk)
