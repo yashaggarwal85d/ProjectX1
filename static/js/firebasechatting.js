@@ -60,7 +60,7 @@ class chat {
         const ProfileName = document.getElementById(`chat_instance_profile_name`);
         const ProfileSkills = document.getElementById('userskills');
 
-        var url = `http://127.0.0.1:8000/accounts/profile_api/${this.user_id}/`;
+        var url = `http://project-x1-0.herokuapp.com/accounts/profile_api/${this.user_id}/`;
         $.get(url, (data) => {
 
             ProfilePic.src = data.profile_pic;
@@ -217,7 +217,7 @@ class Issuechat {
         const ProfileName = document.getElementById(`chat_instance_profile_name`);
         const ProfileSkills = document.getElementById('userskills');
 
-        var url = `http://127.0.0.1:8000/issues/issue_detail_api/${this.issue_id}/`;
+        var url = `http://project-x1-0.herokuapp.com/issues/issue_detail_api/${this.issue_id}/`;
         $.get(url, (data) => {
 
             ProfilePic.src = `https://picsum.photos/id/${this.issue_id}/200/300`;
@@ -307,7 +307,7 @@ class Issuechat {
                         wrapper.innerHTML = item;
                         const issue_user_img = document.getElementsByClassName(`issue_user_img_${message.sender}`);
                         const issue_user_name = document.getElementsByClassName(`issue_user_name_${message.sender}`);
-                        var url = `http://127.0.0.1:8000/accounts/profile_api/${message.sender}/`;
+                        var url = `http://project-x1-0.herokuapp.com/accounts/profile_api/${message.sender}/`;
 
                         $.get(url, (data) => {
                             var i;
@@ -392,7 +392,7 @@ class Projectchat {
         const ProfileName = document.getElementById(`chat_instance_profile_name`);
         const ProfileSkills = document.getElementById('userskills');
 
-        var url = `http://127.0.0.1:8000/projects/project_detail_api/${this.project_id}/`;
+        var url = `http://project-x1-0.herokuapp.com/projects/project_detail_api/${this.project_id}/`;
         $.get(url, (data) => {
 
             ProfilePic.src = `https://picsum.photos/id/${this.project_id}/200/300`;
@@ -482,7 +482,7 @@ class Projectchat {
                         wrapper.innerHTML = item;
                         const project_user_img = document.getElementsByClassName(`project_user_img_${message.sender}`);
                         const project_user_name = document.getElementsByClassName(`project_user_name_${message.sender}`);
-                        var url = `http://127.0.0.1:8000/accounts/profile_api/${message.sender}/`;
+                        var url = `http://project-x1-0.herokuapp.com/accounts/profile_api/${message.sender}/`;
 
                         $.get(url, (data) => {
                             var i;
@@ -585,7 +585,7 @@ ListAllActiveChats = async () => {
                         </a> 
                         `
 
-                var url = `http://127.0.0.1:8000/accounts/profile_api/${secondUser}/`;
+                var url = `http://project-x1-0.herokuapp.com/accounts/profile_api/${secondUser}/`;
                 $.get(url, (data) => {
                     const profileimg = document.getElementById(`profile_pic_${secondUser}`);
                     const profilename = document.getElementById(`profile_name_${secondUser}`);
