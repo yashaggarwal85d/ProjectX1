@@ -21,7 +21,7 @@
 
                                 {% if issue.solve == False %}
                                 {% if issue.user == user and not hide_delete %}
-                                <span class="badge badge-danger"><a href="{% url 'issues:solve' pk=issue.pk %}">Mark
+                                <span class="badge badge-danger"><a style="color:white;" href="{% url 'issues:solve' pk=issue.pk %}">Mark
                                         solved</a></span>
                                 {% else %}
                                 <span class="badge badge-warning">Pending</span>
@@ -39,10 +39,10 @@
                                         data-feather="trash"></i></a>
                                 {% else %}
                                 {% if user in issue.members.all %}
-                                <a href="{% url 'issues:leave' pk=issue.pk %}"></span>quit</a>
-                                {% else %}
-                                <a href="{% url 'issues:join' pk=issue.pk  %}"></span>workon</a>
-                                {% endif %}
+                                <td><span class="badge badge-danger"><a style="color:white;" href="{% url 'issues:leave' pk=issue.pk %}">quit</a></span></td>
+	                            {% else %}
+                                <td><span class="badge badge-success"><a style="color:white;" href="{% url 'issues:join' pk=issue.pk  %}">workon</a></span></td>
+	                            {% endif %}
                                 {% endif %}
                                 {% else %}
 
@@ -52,7 +52,7 @@
                                 {% endif %}
                                 {% if user in issue.members.all or user == issue.user %}
                                 <br><br>
-                                <a class="btn btn-primary btn-sm" href="{% url 'chats:issue' pk=issue.pk %}"><span
+                                <a class="btn btn-primary btn-sm" href="{% url 'chats:all' %}"><span
                                         data-feather="message-square"></span>Discuss</a>
                                 {% endif %}
 

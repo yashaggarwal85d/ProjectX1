@@ -13,6 +13,9 @@ from issues.models import *
 from braces.views import SelectRelatedMixin
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.views.generic.edit import DeleteView 
+from .serializers import ProfileSerializer
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 
 def register(request):
 
@@ -97,3 +100,10 @@ def delete_user(request):
 		return redirect('/')
 	else:
 		return render(request,'accounts/confirm_delete.html')
+
+@login_required
+@api_view(['GET'])
+def profile_api(request,pk):
+	profile = Profile.objects.get(user__pk=pk)
+	serializer = ProfileSerializer(profile)
+	return Response(serializer.data)

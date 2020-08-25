@@ -42,10 +42,14 @@
 								<h5 class="card-title mb-0">Profile info</h5>
 							</div>
 							<div class="card-body">
+								<img id="profileimg" src="{{profile.profile_pic}}" alt="Profile pic"
+									class="rounded-circle img-responsive mt-2" width="188" height="188" /><br><br>
+								<hr>
+								<progress value="0" max="100" id="uploader">0%</progress>
+								<input type="file" accept="image/*" value="upload" id="imgbtn" />
+
 								<form method="POST" action="{% url 'set' %}" enctype="multipart/form-data">
 									{% csrf_token %}
-									<img src="{{profile.profile_pic.url}}" alt="Profile pic"
-									class="rounded-circle img-responsive mt-2" width="188" height="188" /><br><br><hr>
 									{{profile_form.as_p}}
 									<button type="submit" class="btn btn-primary">Save changes</button>
 								</form>
@@ -63,8 +67,7 @@
 									{% for field in form %}
 									<div class="form-group">
 										<label for="inputPasswordCurrent">{{field.label_tag}}</label>
-										<input type="password" name="{{field.name}}" class="form-control"
-											id="inputPasswordNew">
+										<input type="password" name="{{field.name}}" class="form-control">
 									</div>
 									{% endfor %}
 
@@ -78,4 +81,45 @@
 		</div>
 	</div>
 </main>
+{% endblock %}
+{% block script %}
+<script src="https://www.gstatic.com/firebasejs/7.18.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.18.0/firebase-analytics.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.18.0/firebase-storage.js"></script>
+<script src="{% static 'js/firebaseconfig.js' %}"></script>
+
+<script>
+	var uploader = document.getElementById('uploader');
+	var imgbtn = document.getElementById('imgbtn');
+	var profile_model = document.getElementById('profile_model')
+
+	imgbtn.addEventListener('change', function (e) {
+		var file = e.target.files[0];
+		var storageRef = firebase.storage().ref('profile_pic/' + '{{profile.user.pk}}.jpg');
+		var task = storageRef.put(file);
+		var profileid = document.getElementById('profileimg');
+
+		task.on('state_changed',
+			function progress(snapshot) {
+				var percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+				uploader.value = percentage;
+			},
+			function error(err) {
+
+			},
+
+			function complete() {
+				var imgfileurl = firebase.storage().ref('profile_pic/').child('{{profile.user.pk}}.jpg')
+					.getDownloadURL();
+				imgfileurl.then(profile_url => {
+					console.log(profile_url);
+					profileid.src = profile_url;
+					profile_model.value = profile_url;
+
+				});
+			}
+		);
+	});
+</script>
+
 {% endblock %}

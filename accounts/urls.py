@@ -10,4 +10,6 @@ urlpatterns = [
     url(r"^logout/$",views.logoutUser,name='logout'),
     url(r"^profile/(?P<pk>\d+)/$",views.profile_page,name='profile'),
     url(r"^deluser/$",views.delete_user,name="deluser"),
+
+    url(r"^profile_api/(?P<pk>\d+)/$",views.profile_api,name='profile_api')
 ]

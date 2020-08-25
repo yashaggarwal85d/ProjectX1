@@ -10,7 +10,8 @@
 
 	{% if issue.solve == False %}
 	{% if issue.user == user and not hide_delete %}
-	<td><span class="badge badge-danger"><a style="color:white;" href="{% url 'issues:solve' pk=issue.pk %}">Mark solved</a></span></td>
+	<td><span class="badge badge-danger"><a style="color:white;" href="{% url 'issues:solve' pk=issue.pk %}">Mark
+				solved</a></span></td>
 	{% else %}
 	<td><span class="badge badge-warning">Pending</span></td>
 	{% endif %}
@@ -30,15 +31,18 @@
 	{% if issue.solve == False %}
 
 	{% if user in issue.members.all %}
-	<td><span class="badge badge-danger"><a style="color:white;" href="{% url 'issues:leave' pk=issue.pk %}">quit</a></span></td>
+	<td><span class="badge badge-danger"><a style="color:white;"
+				href="{% url 'issues:leave' pk=issue.pk %}">quit</a></span></td>
 	{% else %}
-	<td><span class="badge badge-success"><a style="color:white;" href="{% url 'issues:join' pk=issue.pk  %}">workon</a></span></td>
+	<td><span class="badge badge-success"><a style="color:white;"
+				href="{% url 'issues:join' pk=issue.pk  %}">workon</a></span></td>
 	{% endif %}
 
 	{% else %}
 
 	{% if user in issue.members.all %}
-	<td><span class="badge badge-danger"><a style="color:white;" href="{% url 'issues:leave' pk=issue.pk %}">quit</a><</span>/td>
+	<td><span class="badge badge-danger"><a style="color:white;"
+				href="{% url 'issues:leave' pk=issue.pk %}">quit</a></span></td>
 	{% endif %}
 
 	{% endif %}

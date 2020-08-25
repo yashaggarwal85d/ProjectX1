@@ -63,7 +63,7 @@
 
 								{% if user in project.members.all or user == project.user %}
 								<br><br>
-								<a class="btn btn-primary btn-sm" href="{% url 'chats:project' pk=project.pk %}"><span
+								<a class="btn btn-primary btn-sm" href="{% url 'chats:all' %}"><span
 										data-feather="message-square"></span>Discuss</a>
 								{% endif %}
 

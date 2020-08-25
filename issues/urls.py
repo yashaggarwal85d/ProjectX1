@@ -16,6 +16,7 @@ urlpatterns = [
     url(r"accept/(?P<pk>\d+)/$", views.accept_answer, name="accept"),
     
     url(r"issues_list_api/$", views.issues_list_api, name="issues_list_api"),
+    url(r"issue_detail_api/(?P<pk>\d+)/$", views.issue_detail_api, name="issue_detail_api"),
     url(r"answers_list_api/$", views.answers_list_api, name="answers_list_api"),
     
 

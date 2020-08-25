@@ -10,7 +10,7 @@
             </div>
         </div>
         <div class="media">
-            <img src="{{answer.user.profile.profile_pic.url}}" width="36" height="36" class="rounded-circle mr-2"
+            <img src="{{answer.user.profile.profile_pic}}" width="36" height="36" class="rounded-circle mr-2"
                 alt="profile_pic">
             <div class="media-body">
                 <small class="float-right text-navy">{{answer.date_added}}</small>
@@ -20,9 +20,6 @@
                     {{answer.message|safe}}
                 </div>
 
-                <a href="{% url 'issues:like' pk=answer.pk %}"><i class="align-middle mr-2"
-                        data-feather="thumbs-up"></i></a><span
-                    class="align-middle">{{answer.likes.count}}</span><br><br>
             </div>
         </div>
         <hr />

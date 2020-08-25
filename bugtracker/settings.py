@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '#mxh!mkoa!!%fup6pq(*l)t*p4!go2c7m82j=b^v=cla)0=e^1'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['project-x1-0.herokuapp.com','127.0.0.1']
 
@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     'django_filters',
     'taggit',
     'ckeditor',
-    'chats.apps.ChatsConfig',
+    'chats',
     'rest_framework',
 ]
 
@@ -90,9 +90,7 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-import dj_database_url
-db_from_env = dj_database_url.config(conn_max_age=600)
-DATABASES['default'].update(db_from_env)
+
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -133,7 +131,10 @@ STATIC_ROOT = os.path.join(BASE_DIR,'staticfiles')
 
 STATIC_URL = '/static/'
 
-MEDIA_URL = '/static/images/'
+if(DEBUG):
+    MEDIA_URL = '/images/'
+else:
+    MEDIA_URL = '/static/images/'
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR,'static')

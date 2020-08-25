@@ -132,6 +132,14 @@ def projects_list_api(request):
     serializer = ProjectSerializer(projects, many=True)
     return Response(serializer.data)
 
+@login_required
+@api_view(['GET'])
+def project_detail_api(request,pk):
+    project = Project.objects.get(pk=pk)
+    serializer = ProjectSerializer(project)
+    return Response(serializer.data)
+
+
 def CloseOrOpenJoin(request,pk):
     project = models.Project.objects.get(id=pk)
     if project.projectJoinPermission == True:

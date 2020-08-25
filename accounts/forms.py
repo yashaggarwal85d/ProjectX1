@@ -30,4 +30,5 @@ class CreateProfileForm(ModelForm):
             'twitter':forms.URLInput(attrs={'class':'form-control'}),
             'github':forms.URLInput(attrs={'class':'form-control'}),
             'skills':TagWidget(attrs={'class':'form-control','data-role':'tagsinput','placeholder':'press enter to add more skills'}),
+            'profile_pic':forms.URLInput(attrs={'style':'display:none;','id':'profile_model'}),
         }

@@ -5,7 +5,8 @@
 <head>
     <meta charset="utf-8">
     <title>Project X1</title>
-    <link rel="icon" type="image/png" href="https://i.pinimg.com/originals/c5/1c/da/c51cda89a29626ea7b655bd7f703218c.png"/>
+    <link rel="icon" type="image/png"
+        href="https://i.pinimg.com/originals/c5/1c/da/c51cda89a29626ea7b655bd7f703218c.png" />
     <link href="{%static 'css/app.css' %}" rel="stylesheet">
 </head>
 
@@ -70,13 +71,14 @@
                         <li class="sidebar-item"><a class="sidebar-link" href="{% url 'issues:all' %}">View Issues</a>
                         </li>
                         <li class="sidebar-item"><a class="sidebar-link" href="{% url 'issues:create' %}">Raise Issue
-                                </a></li>
+                            </a></li>
                     </ul>
                 </li>
 
                 <li class="sidebar-item">
                     <a class="sidebar-link" href="{% url 'chats:all' %}">
-                        <i class="align-middle" data-feather="message-square"></i> <span class="align-middle">Messenger</span>
+                        <i class="align-middle" data-feather="message-square"></i> <span
+                            class="align-middle">Messenger</span>
                     </a>
                 </li>
 
@@ -112,7 +114,8 @@
                 <form action="{% url 'search' %}" method="POST" class="form-inline d-none d-sm-inline-block">
                     {% csrf_token %}
                     <div class="input-group input-group-navbar">
-                        <input name="search" type="search" class="form-control" placeholder="Search…" aria-label="Search">
+                        <input name="search" type="search" class="form-control" placeholder="Search…"
+                            aria-label="Search">
                         <div class="input-group-append">
                             <button class="btn" type="submit">
                                 <i class="align-middle" data-feather="search"></i>
@@ -139,8 +142,8 @@
                                 <span class="text-dark">{{user.username}}</span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right">
-                                <a class="dropdown-item" href="{% url 'accounts:profile' pk=user.pk %}"><i class="align-middle mr-1"
-                                        data-feather="user"></i> Profile</a>
+                                <a class="dropdown-item" href="{% url 'accounts:profile' pk=user.pk %}"><i
+                                        class="align-middle mr-1" data-feather="user"></i> Profile</a>
                                 <a class="dropdown-item" href="{% url 'home' %}"><i class="align-middle mr-1"
                                         data-feather="pie-chart"></i> Analytics</a>
                                 <div class="dropdown-divider"></div>
@@ -161,19 +164,17 @@
 
             {% block content %}
 
-            
+
             {% endblock %}
         </div>
     </div>
 
     <script src="{% static 'js/app.js' %}"></script>
     <script src="{% static 'js/tagsinput.js' %}"></script>
-    <script src="{% static 'js/darkmode.js' %}"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
-        if( '{{message}}' !='')
-        {
-        alert('{{message}}')
+        if ('{{message}}' != '') {
+            alert('{{message}}')
         }
     </script>
     {% block script %}

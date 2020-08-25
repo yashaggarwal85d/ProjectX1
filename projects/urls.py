@@ -13,7 +13,8 @@ urlpatterns = [
     url(r"tagged/(?P<pk>\d+)/$",views.tagged,name="tagged"),
     url(r"complete/(?P<pk>\d+)/$",views.CompleteProject,name="complete"),
     url(r"joinper/(?P<pk>\d+)/$",views.CloseOrOpenJoin,name="joinper"),
-
+    
+    url(r"project_detail_api/(?P<pk>\d+)/$", views.project_detail_api, name="project_detail_api"),
     url(r"projects_list_api/$", views.projects_list_api, name="projects_list_api"),
     
 

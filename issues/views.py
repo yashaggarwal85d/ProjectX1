@@ -62,7 +62,7 @@ class DeleteIssue(LoginRequiredMixin, SelectRelatedMixin,generic.DeleteView):
 class JoinIssue(LoginRequiredMixin, generic.RedirectView):
 
     def get_redirect_url(self, *args, **kwargs):
-        return reverse("home")
+        return reverse("issues:single",kwargs={"pk": self.kwargs.get("pk")})
 
     def get(self, request, *args, **kwargs):
         issue = get_object_or_404(models.Issue,pk=self.kwargs.get("pk"))
@@ -82,7 +82,7 @@ class JoinIssue(LoginRequiredMixin, generic.RedirectView):
 class LeaveIssue(LoginRequiredMixin, generic.RedirectView):
 
     def get_redirect_url(self, *args, **kwargs):
-        return reverse("home")
+        return reverse("issues:single",kwargs={"pk": self.kwargs.get("pk")})
 
     def get(self, request, *args, **kwargs):
 
@@ -189,6 +189,13 @@ def add_like(request,pk):
 def issues_list_api(request):
     issues = Issue.objects.all().order_by('id')
     serializer = IssueSerializer(issues, many=True)
+    return Response(serializer.data)
+
+@login_required
+@api_view(['GET'])
+def issue_detail_api(request,pk):
+    issue = Issue.objects.get(pk=pk)
+    serializer = IssueSerializer(issue)
     return Response(serializer.data)
 
 
