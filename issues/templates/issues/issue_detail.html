@@ -21,7 +21,8 @@
 
                                 {% if issue.solve == False %}
                                 {% if issue.user == user and not hide_delete %}
-                                <span class="badge badge-danger"><a style="color:white;" href="{% url 'issues:solve' pk=issue.pk %}">Mark
+                                <span class="badge badge-danger"><a style="color:white;"
+                                        href="{% url 'issues:solve' pk=issue.pk %}">Mark
                                         solved</a></span>
                                 {% else %}
                                 <span class="badge badge-warning">Pending</span>
@@ -39,10 +40,12 @@
                                         data-feather="trash"></i></a>
                                 {% else %}
                                 {% if user in issue.members.all %}
-                                <td><span class="badge badge-danger"><a style="color:white;" href="{% url 'issues:leave' pk=issue.pk %}">quit</a></span></td>
-	                            {% else %}
-                                <td><span class="badge badge-success"><a style="color:white;" href="{% url 'issues:join' pk=issue.pk  %}">workon</a></span></td>
-	                            {% endif %}
+                                <td><span class="badge badge-danger"><a style="color:white;"
+                                            href="{% url 'issues:leave' pk=issue.pk %}">quit</a></span></td>
+                                {% else %}
+                                <td><span class="badge badge-success"><a style="color:white;"
+                                            href="{% url 'issues:join' pk=issue.pk  %}">workon</a></span></td>
+                                {% endif %}
                                 {% endif %}
                                 {% else %}
 
@@ -78,9 +81,11 @@
                                         {{issue.user.username}}</a></li>
                                 <li class="mb-1"><span data-feather="users" class="feather-sm mr-1"></span> People
                                     working on this <strong>{{issue.members.count}}</strong></li>
+                                {% if issue.project %}
                                 <li class="mb-1"><span data-feather="book" class="feather-sm mr-1"></span> Project <a
                                         href="{% url 'projects:single' pk=issue.project.pk %}">
                                         {{issue.project.name}}</a></li>
+                                {% endif %}
                                 <li class="mb-1"><span data-feather="list" class="feather-sm mr-1"></span> Priority
                                     <strong> {{issue.priority}}</strong></li>
                                 <li class="mb-1"><span data-feather="alert-circle" class="feather-sm mr-1"></span>
