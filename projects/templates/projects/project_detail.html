@@ -337,7 +337,7 @@
 	function SaveRepo() {
 		if (PopupWindowButton.classList.contains('btn-success') && PopupWindowAlert.classList.contains('alert-success')) {
 			var url =
-				`http://project-x1-0.herokuapp.com/projects/project_github_post/{{project.pk}}/${repoowner.value}/${reponame.value}`
+				`https://project-x1-0.herokuapp.com/projects/project_github_post/{{project.pk}}/${repoowner.value}/${reponame.value}`
 			console.log(url);
 			fetch(url).then(function (response) {
 				console.log(response);
