@@ -5,3 +5,8 @@ class ProjectSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Project
 		fields = '__all__'
+
+class ProjectRepoSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = Project
+		fields = ('repoowner','githubrepo',)

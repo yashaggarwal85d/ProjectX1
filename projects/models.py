@@ -18,6 +18,8 @@ class Project(models.Model):
     complete = models.BooleanField(default = False)
     members = models.ManyToManyField(User,through="ProjectMember")
     projectJoinPermission = models.BooleanField(default=True)
+    repoowner = models.CharField(max_length=255,blank=True,null=True)
+    githubrepo = models.CharField(max_length=255,blank=True,null=True)
 
     def __str__(self):
         return '%s - %s' % (self.name,self.user.username)

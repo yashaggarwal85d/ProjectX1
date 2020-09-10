@@ -139,6 +139,16 @@ def project_detail_api(request,pk):
     serializer = ProjectSerializer(project)
     return Response(serializer.data)
 
+@login_required
+@api_view(['GET','POST'])
+def project_github_post(request,pk,owner,repo):
+    project = Project.objects.get(pk=pk)
+    project.repoowner = owner
+    project.githubrepo = repo
+    project.save()
+    serializer = ProjectRepoSerializer(project)
+    return Response(serializer.data)
+
 
 def CloseOrOpenJoin(request,pk):
     project = models.Project.objects.get(id=pk)
