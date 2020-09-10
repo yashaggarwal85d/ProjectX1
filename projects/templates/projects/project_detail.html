@@ -170,7 +170,7 @@
 
 							{% if project.githubrepo == None or project.repoowner == None %}
 							{% else %}
-							{% if user in project.members.all %}
+							{% if user in project.members.all or project.user == user %}
 							<div class="alert alert-success alert-dismissible" role="alert">
 								<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 									<span aria-hidden="true">&times;</span>
@@ -338,11 +338,8 @@
 		if (PopupWindowButton.classList.contains('btn-success') && PopupWindowAlert.classList.contains('alert-success')) {
 			var url =
 				`https://project-x1-0.herokuapp.com/projects/project_github_post/{{project.pk}}/${repoowner.value}/${reponame.value}`
-			console.log(url);
 			fetch(url).then(function (response) {
-				console.log(response);
-				listwrapper.innerHTML = "";
-				pathwrapper.innerHTML = "";
+				window.location.reload();
 				window.open(`https://githubbox.com/${repoowner.value}/${reponame.value}`, "_blank")
 				buildList(`https://api.github.com/repos/${repoowner.value}/${reponame.value}/git/trees/master?`,
 					`${reponame.value}`);

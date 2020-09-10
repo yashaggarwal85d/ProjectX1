@@ -5,7 +5,7 @@ from taggit.forms import TagWidget
 class ProjectForm(forms.ModelForm):
     class Meta:
         fields = '__all__'
-        exclude = ['user','created_at','members','complete']
+        exclude = ['user','created_at','members','complete','repoowner','githubrepo']
         model = models.Project
         help_texts = {'tags':''}
 
