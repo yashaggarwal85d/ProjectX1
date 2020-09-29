@@ -18,12 +18,7 @@
                         <h5 class="card-title mb-0"><br>{{profile.first_name.capitalize}}</h5>
                         <div class="text-muted mb-2">{{profile.occupation.capitalize}}</div>
                         <h5 class="card-title mb-0"><br>Reputation points : {{profile.reputation_points}}</h5><br>
-                        <div>
-                            {% if user != profile.user %}
-                            <a class="btn btn-primary btn-sm" href="{% url 'chats:list' pk=profile.user.pk %}"><span data-feather="message-square"></span>
-                                Message</a>
-                            {% endif %}
-                        </div>
+                        
                     </div>
                     <hr class="my-0" />
                     <div class="list-group list-group-flush" role="tablist">
