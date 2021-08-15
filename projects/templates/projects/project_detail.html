@@ -337,8 +337,10 @@
 	function SaveRepo() {
 		if (PopupWindowButton.classList.contains('btn-success') && PopupWindowAlert.classList.contains('alert-success')) {
 			var url =
-				`https://project-x1-0.herokuapp.com/projects/project_github_post/{{project.pk}}/${repoowner.value}/${reponame.value}`
-			fetch(url).then(function (response) {
+				`http://127.0.0.1:8000/projects/project_github_post/{{project.pk}}/${repoowner.value}/${reponame.value}`
+			fetch(url,{
+			mode:"no-cors"
+		}).then(function (response) {
 				window.open(`https://githubbox.com/${repoowner.value}/${reponame.value}`, "_blank")
 				window.location.reload();
 				buildList(`https://api.github.com/repos/${repoowner.value}/${reponame.value}/git/trees/master?`,

@@ -2,15 +2,12 @@
 {% block content %}
 
 <div class="col-md-5">
-    <img src="https://images2.minutemediacdn.com/image/upload/c_fill,g_auto,h_1248,w_2220/f_auto,q_auto,w_1100/v1555300675/shape/mentalfloss/istock_54003500_medium.jpg"
+    <img src="https://api.time.com/wp-content/uploads/2021/02/laptop-home-office.jpg"
         alt="login" class="login-card-img">
 </div>
 <div class="col-md-7">
     <div class="card-body">
-        <div class="brand-wrapper">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTYzjGDN5wm2y-2wGxKEZPkd3lvqXEZCiherw&usqp=CAU"
-                alt="logo" class="logo">
-        </div>
+        
         <p class="login-card-description">Sign Up</p>
         <form method="POST" action="">
             {% csrf_token %}
@@ -24,11 +21,11 @@
             </div>
             <div class="form-group mb-4">
                 <label for="password" class="sr-only">Password</label>
-                <input type="password" name="password1" id="password" class="form-control" placeholder="***********">
+                <input type="password" name="password1" id="password" class="form-control" placeholder="password...">
             </div>
             <div class="form-group mb-4">
                 <label for="password" class="sr-only">Password</label>
-                <input type="password" name="password2" class="form-control" placeholder="***********">
+                <input type="password" name="password2" class="form-control" placeholder="confirm password...">
             </div>
             <input name="register" id="login" class="btn btn-block login-btn mb-4" type="submit" value="Sign Up">
         </form>
