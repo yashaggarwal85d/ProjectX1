@@ -42,7 +42,7 @@
 
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+![Product Name Screen Shot][product-screenshot]
 
 This is my first year project in which i worked on django to create a full stack application.
 It is a bug tracking app, which can be used to create project groups, raise and resolve issues.
@@ -149,10 +149,10 @@ Yash Aggarwal
 
 <!-- ACKNOWLEDGEMENTS -->
 
-[product-screenshot]: ./ReadmeFiles/screenshot.png
-[product-screenshot1]: ./ReadmeFiles/screenshot1.png
-[product-screenshot2]: ./ReadmeFiles/screenshot2.png
-[product-screenshot3]: ./ReadmeFiles/screenshot3.png
-[product-screenshot4]: ./ReadmeFiles/screenshot4.png
-[product-screenshot5]: ./ReadmeFiles/screenshot5.png
-[product-screenshot6]: ./ReadmeFiles/screenshot6.png
+[product-screenshot]: ./ReadmeFiles/Screenshot.png
+[product-screenshot1]: ./ReadmeFiles/Screenshot1.png
+[product-screenshot2]: ./ReadmeFiles/Screenshot2.png
+[product-screenshot3]: ./ReadmeFiles/Screenshot3.png
+[product-screenshot4]: ./ReadmeFiles/Screenshot4.png
+[product-screenshot5]: ./ReadmeFiles/Screenshot5.png
+[product-screenshot6]: ./ReadmeFiles/Screenshot6.png
