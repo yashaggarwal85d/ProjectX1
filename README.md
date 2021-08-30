@@ -149,10 +149,10 @@ Yash Aggarwal
 
 <!-- ACKNOWLEDGEMENTS -->
 
-[product-screenshot]: ReadmeFiles/screenshot.png
-[product-screenshot1]: ReadmeFiles/screenshot1.png
-[product-screenshot2]: ReadmeFiles/screenshot2.png
-[product-screenshot3]: ReadmeFiles/screenshot3.png
-[product-screenshot4]: ReadmeFiles/screenshot4.png
-[product-screenshot5]: ReadmeFiles/screenshot5.png
-[product-screenshot6]: ReadmeFiles/screenshot6.png
+[product-screenshot]: ./ReadmeFiles/screenshot.png
+[product-screenshot1]: ./ReadmeFiles/screenshot1.png
+[product-screenshot2]: ./ReadmeFiles/screenshot2.png
+[product-screenshot3]: ./ReadmeFiles/screenshot3.png
+[product-screenshot4]: ./ReadmeFiles/screenshot4.png
+[product-screenshot5]: ./ReadmeFiles/screenshot5.png
+[product-screenshot6]: ./ReadmeFiles/screenshot6.png
