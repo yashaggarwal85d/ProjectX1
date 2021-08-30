@@ -1,5 +1,6 @@
 {% extends "projects/project_base.html" %}
 {% block project_content %}
+{% load static %}
 
 <div>
 	<main class="content">
@@ -248,11 +249,11 @@
 
 {% block script %}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
+<script src="{% static 'js/API.js' %}"></script>
 <script type="text/javascript">
+
 	const owner = "{{project.repoowner}}";
 	const repo = "{{project.githubrepo}}";
-	console.log(owner, repo);
 	var listwrapper = document.getElementById('list-wrapper');
 	var pathwrapper = document.getElementById('path-wrapper');
 	const githubbutton = document.getElementById('githubbutton');
@@ -335,9 +336,10 @@
 	}
 
 	function SaveRepo() {
+		console.log(API);
 		if (PopupWindowButton.classList.contains('btn-success') && PopupWindowAlert.classList.contains('alert-success')) {
 			var url =
-				`http://127.0.0.1:8000/projects/project_github_post/{{project.pk}}/${repoowner.value}/${reponame.value}`
+				`${API}/projects/project_github_post/{{project.pk}}/${repoowner.value}/${reponame.value}`
 			fetch(url,{
 			mode:"no-cors"
 		}).then(function (response) {
