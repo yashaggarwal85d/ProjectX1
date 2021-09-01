@@ -89,8 +89,6 @@ First fork this repository and clone it in your pc. Python 3 or above with pip s
 
 We need to install the dependencies required for the project to run locally.
 
-<br />
-
 - python
 
   ```sh
