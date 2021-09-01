@@ -14,28 +14,28 @@
     <div class="body-wrap">
         <!-- logo -->
         <header class="site-header">
-            <div class="container">
+            <div class="container" style="margin-left: 30px;">
                 <div class="site-header-inner">
                     <div class="brand header-brand">
-                        <img style="height: 120px;" src="{% static '/images/logo.png' %}" alt="Logo">
+                        <img style="height: 120px" src="{% static '/images/logo.png' %}" alt="Logo">
                     </div>
                 </div>
             </div>
         </header>
         <!--  -->
         <main>
-            <section class="hero">
-                <div class="container">
+            <section class="hero" style="padding-top: 0px;">
+                <div class="container" style="margin-left: 0px;">
                     <div class="hero-inner">
-                        <div class="hero-copy">
+                        <div class="hero-copy" style="padding-left: 0px;padding-right:0px;margin-left: 50px;">
                             <h1 class="hero-title mt-0">Project X1</h1>
                             <p class="hero-paragraph">A very simple way to track issues in a project,<br> and collaborate
-                                with your colleagues and clients<br><br>Its simple but effective</p>
+                                with your colleagues and clients</p>
                             <div class="hero-cta"><a class="button button-primary"
                                     href="{% url 'accounts:login' %}">Login</a><a class="button"
                                     href="{% url 'accounts:register' %}">Sign Up</a></div>
                         </div>
-                        <img style="height:400px;margin-right:2000px" src="{% static 'images/Capture.PNG' %}">
+                        <img style="height:450px;margin-right:2000px;position: relative;;padding-top: 20px;" src="{% static 'images/Screenshot.png' %}">
                        
                     </div>
                 </div>
